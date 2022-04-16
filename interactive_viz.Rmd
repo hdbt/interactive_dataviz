@@ -1,0 +1,132 @@
+---
+title: "Interactivity"
+output:
+  html_document:
+    toc: yes
+    theme: readable
+    #number_sections: yes
+    code_folding: hide
+    toc_depth: 2
+    toc_float: yes
+  html_notebook:
+    toc: yes
+    theme: readable
+    #number_sections: yes
+    code_folding: hide
+    toc_depth: 3
+    toc_float: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+# Interactive Data Visualization Frameworks
+There are various ways to create interactive visualizations. We present two very popular packages, that adapt ggplots syntax, making them very comfortable to use. 
+
+## charts {.tabset .tabset-pills}
+### plotly
+
+Ther are two ways to make use of plotlys framework.  
+
+[ggplotly](https://plotly.com/ggplot2/) & [plotly for R](https://plotly.com/r/)
+ggplotly turns your ggplot graphs with the function *ggplotly()* into an interactive graph. 
+
+plotly uses a different syntax style, but provides more interactive capabilities
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(plotly)
+library(broom)
+library(dplyr)
+data(diamonds, package = "ggplot2")
+
+data <- sample_n(diamonds, 300)
+
+modlss <- loess(price ~ carat, data = data)
+fit <- arrange(augment(modlss,se_fit = TRUE), carat)
+
+p <- ggplot(NULL, mapping = aes(x = carat, y = price )) +
+              geom_ribbon(data  = fit, mapping = aes(ymin = .fitted - 2*.se.fit, ymax = .fitted + 2*.se.fit), fill = "grey70")+
+              geom_point(data = data, alpha = 0.7, mapping = aes(size = depth, group = cut, color = cut)) +
+              geom_line(data = fit, aes(x = carat, y = .fitted)) 
+  
+
+
+ggplotly(p)
+```
+
+ 
+### highcharter 
+
+The main difference in ggplot2's geom_ functions and hc_add_series is that we need to add data and aesthetics explicitly in every function while in ggplot2 one can add data and aesthetics in a layer and then can further add more geoms which can work on same data and aesthetics.
+
+An accurate example is given below using the diamond dataset in the ggplot2 package.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(highcharter)
+library(broom)
+library(dplyr)
+data(diamonds, package = "ggplot2")
+
+data <- sample_n(diamonds, 300)
+
+modlss <- loess(price ~ carat, data = data)
+fit <- arrange(augment(modlss,se_fit = TRUE), carat)
+
+highchart() %>%
+  hc_add_series(data, type = "scatter",
+                hcaes(x = carat, y = price, size = depth, group = cut)) %>%
+  hc_add_series(fit, type = "line", hcaes(x = carat, y = .fitted),
+                name = "Fit", id = "fit") %>%
+  hc_add_series(fit, type = "arearange",
+                hcaes(x = carat, low = .fitted - 2*.se.fit,
+                      high = .fitted + 2*.se.fit),
+                linkedTo = "fit")
+```
+
+### plot_ly 
+
+The main difference in ggplot2's geom_ functions and hc_add_series is that we need to add data and aesthetics explicitly in every function while in ggplot2 one can add data and aesthetics in a layer and then can further add more geoms which can work on same data and aesthetics.
+
+An accurate example is given below using the diamond dataset in the ggplot2 package.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(plotly)
+library(broom)
+library(dplyr)
+data(diamonds, package = "ggplot2")
+
+data <- sample_n(diamonds, 300)
+
+modlss <- loess(price ~ carat, data = data)
+fit <- augment(modlss, se_fit = TRUE)
+
+
+fig <- plot_ly(data = data, x = ~carat) %>% 
+  add_markers(y = ~price, 
+              color = ~cut, 
+              size = ~carat, 
+              text = ~paste("Price: ", price, '$<br>Cut:', cut)) %>%
+  add_lines(y = ~fitted(loess(price ~ carat)),
+                         line = list(color = 'lightblue'),
+                         name = "Loess Smoother") %>%
+  add_ribbons(data = augment(loess(price ~ carat,data = data),se_fit = TRUE), 
+              ymin = ~.fitted - 2 * .se.fit,
+              ymax = ~.fitted + 2 * .se.fit,
+              line = list(color = "rgba(2, 162, 182, 0.05)"),
+              fillcolor = "rgba(2, 162, 182, 0.2)",
+              name = "Standarderror"
+              )
+
+
+fig
+
+# highchart() %>%
+#   hc_add_series(data, type = "scatter",
+#                 hcaes(x = carat, y = price, size = depth, group = cut)) %>%
+#   hc_add_series(fit, type = "line", hcaes(x = carat, y = .fitted),
+#                 name = "Fit", id = "fit") %>%
+#   hc_add_series(fit, type = "arearange",
+#                 hcaes(x = carat, low = .fitted - 2*.se.fit,
+#                       high = .fitted + 2*.se.fit),
+#                 linkedTo = "fit")
+```

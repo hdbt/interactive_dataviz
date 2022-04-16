@@ -1,0 +1,13 @@
+name: interactive_dataviz
+title: interactive_dataviz
+username:
+account: hamid-bulut
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6047190
+bundleId: 5787013
+url: https://hamid-bulut.shinyapps.io/interactive_dataviz/
+when: 1649690824.98321
+lastSyncTime: 1649690824.98321
+asMultiple: FALSE
+asStatic: FALSE
