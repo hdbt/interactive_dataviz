@@ -5,8 +5,9 @@ date: "26/4/2022"
 output:
   ioslides_presentation:
     css: www/styles.css
-    widescreen: yes
-    smaller: yes
+    #logo: slides/slides-figure/download.png
+    widescreen: true
+    smaller: true
     highlight: monochrome
   slidy_presentation:
     highlight: monochrome
@@ -16,70 +17,99 @@ editor_options:
     wrap: 72
 #runtime: shiny
 ---
+<script>
+$('.navbar-logo').wrap('<a href="https://github.com/hdbt/interactive_dataviz/archive/refs/heads/master.zip">');
+</script>
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Topics of the course
+## Course goals
 
-1.  Start with Interactive Visualization (Highcharts, Plotly & ggplot)
+1.  Be able to write & deploy shiny apps
 
-2.  Deploy R Code online with Shiny
+2.  Have a broad understanding of what shiny's capabilities
 
-3.  Dashboards
+3.  Be familiar with popular interactive data viz frameworks and know
+    how to render them
 
-4.  Upgrade with HTML, CSS, JS
+4.  help for self-help
 
-## Structure
+### Requirement for 1 ECTS point:
+
+-   write your own shiny app or flexdashboard and present it in session
+    II
+
+## Course structure
 
 -   First Session
 
-    -   Introduction to Interactive Stuff
+    -   Introduction to Shiny
 
-    -   Shiny handson Examples & Exercises
+    -   Shiny handson examples & exercises
 
-    -   Discuss Presentations
+    -   Discuss presentations
 
--   Second Sessions
+-   Second Session
 
-    -   Presentations
+    -   RMarkdown, interactive visualisation and dashboards
+
+        -   Highcharts, Plotly & ggplot
 
     -   Peek into advanced appliances
 
-    -   Further Pointers
+        -   Upgrade with HTML, CSS, JS
 
+    -   Presentations
 
-## Interactive Data Visualization
+    -   Further pointers
 
--   Most popular and best documented frames are Plotly, Highcharts, leaflet
-      -   all of them are based in JavaScript.
-      -   luckily you dont need to know JS, as customizing is mostly done in wrappers for various languages (R, Python, ...)
-      -   interactivity needs can only be achieved, where you can run JS. That's why HTML documents is the Goldstandard
-      -   There are a ton of ways to share your work
-          -     Save your Work as a HTML document (and embed it in your website). 
-          -     write in a RMD document and then render to ioslides or slidy (creats also an HTML document)
-          -     write a shiny app and deploy to shinyclouds (or own server)
--   Plotly is the most popular and easiest to work with. 
--   Highcharts is less known, relatively customizable and free to use in non comercial settings
--   leaflet is great for interactive maps
+## Course materials 
 
+[Shiny tutorials by RStudio](https://shiny.rstudio.com/tutorial/) -
+Videos and written tutorials to basic functionalities of shiny
 
-## My first shiny app I
+[Mastering Shiny Build interactive Apps, Reports & Dashboards Powered by
+R](https://mastering-shiny.org)
+
+-   Very good guide for basic & advanced mechanics of shiny by Hadley
+    Wickham (Tidyverse Guy)
+
+Shiny cheatsheet, available from
+<https://www.rstudio.com/resources/cheatsheets/> ![Shiny
+cheatsheet](slides-figure/cheatsheet.png){width="500"}
+
+## My first steps in shiny I
 
 ![](slides-figure/open_olat.png){width="850"}
 
-## My first shiny app II
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+## My first steps in shiny II
 
+```{=html}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+```
+```{=html}
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+```
+```{=html}
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+```
+```{=html}
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+```
 <figure class="highcharts-figure">
-    <div id="container"></div>
-    <p class="highcharts-description">
-        Chart showing data updating every second, with old data being removed.
-    </p>
+
+::: {#container}
+:::
+
+<p class="highcharts-description">
+
+Chart showing data updating every second, with old data being removed.
+
+</p>
+
 </figure>
 
 ```{js}
@@ -172,29 +202,22 @@ Highcharts.chart('container', {
 });
 ```
 
+## What is Shiny? I
 
-
-## What is Shiny?
-
-> [Shiny](https://shiny.rstudio.com/) is a framework for
-> creating web applications using R code.
-> It is designed primarily with data scientists in mind, and to that
-> end,
-> you can create pretty complicated Shiny apps with no knowledge of
-> HTML,
-> CSS, or JavaScript.
-> On the other hand, Shiny doesn't limit you to creating trivial or
-> prefabricated apps: its user interface components can be easily
-> customized or extended, and its server uses reactive programming to
-> let
-> you create any type of back end logic you want.
-> Shiny is designed to feel almost magically easy when you're getting
-> started, and yet the deeper you get into how it works, the more you
-> realize it's built out of general building blocks that have strong
-> software engineering principles behind them.
+> [Shiny](https://shiny.rstudio.com/) is a framework for creating web
+> applications using R code. It is designed primarily with data
+> scientists in mind, and to that end, you can create pretty complicated
+> Shiny apps with no knowledge of HTML, CSS, or JavaScript. On the other
+> hand, Shiny doesn't limit you to creating trivial or prefabricated
+> apps: its user interface components can be easily customized or
+> extended, and its server uses reactive programming to let you create
+> any type of back end logic you want. Shiny is designed to feel almost
+> magically easy when you're getting started, and yet the deeper you get
+> into how it works, the more you realize it's built out of general
+> building blocks that have strong software engineering principles
+> behind them.
 >
-> - Hadley Wickham
->
+> -   Hadley Wickham
 
 -   Package for creating web-apps
 
@@ -202,6 +225,8 @@ Highcharts.chart('container', {
 library(shiny)
 
 ```
+
+## What is Shiny? II
 
 -   Gives you easy Framework for deploying interactive R Code to
     everbody, without learning any other language than R
@@ -214,19 +239,26 @@ library(shiny)
     -   interactive app, that takes inputs from the user and updates the
         outputs accordingly
 
--   Every shiny app consists of three components
+-   Every shiny app consists of two components
 
     -   Userinterface (UI) = The body of your app
     -   Server => The brain of your app
-    -   reactives => The central nervous system of your app
 
-## Shiny Examples
+## Shiny Examples I
 
 <iframe width="560" height="315" src="https://nsgrantham.shinyapps.io/tidytuesdayrocks/">
 
 </iframe>
 
-<iframe width="560" height="315" src="https://nsgrantham.shinyapps.io/tidytuesdayrocks/">https://hdbt.shinyapps.io/translate/</iframe>
+<iframe width="560" height="315" src="https://nsgrantham.shinyapps.io/tidytuesdayrocks/">
+
+<https://hdbt.shinyapps.io/translate/>
+
+</iframe>
+
+## Shiny Examples II
+
+<https://shiny.rstudio.com/gallery/>
 
 ## Basic Structure
 
@@ -246,20 +278,102 @@ shinyApp(ui, server)
 
 ## App Structure
 
-Shiny applications have two components
+### UI: Layout
 
-### UI
+User interface (front end) - Controls layout and appearance of your app
+- placing and displaying - inputs(e.g. scroll bars, buttons, text input)
+and - outputs (e.g. plot, text)
 
-User interface for placing and displaying inputs(e.g. scroll bars,
-buttons) and outputs (e.g. plot)
+We basically create an HTML document with r syntax. Example:
 
--   Controls layout and appearance of your app
+```{r echo = TRUE}
+library(shiny)
+ui <- fluidPage(
+  "Hello, world!"
+)
 
--   add HTML widgets
+message(ui)
+```
 
--   Every shiny app consists of three components
+## Layout
 
-### Server
+Provides high-level visual structure
+
+Hierarchy of function calls (Waterfall principle + nested)
+
+fluidPage(), fixedPage() or fillPage() ---> provides basic HTML and CSS
+structure (think of it like a skeleton)
+
+More complex customization need "Layout functions" and are nested inside
+fluidpage
+
+![Structure of a basic app with
+sidebar](slides-figure/sidebar.png){width="500"}
+
+## Layout II
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, size= "10%"}
+library(shiny)
+library(bslib)
+
+
+ui <- fluidPage( theme =  bs_theme(version = 4, bootswatch = "cosmo"),
+  titlePanel("This is the title panel"),
+
+  sidebarLayout(
+    sidebarPanel( "Ths is the sidebar panel"),
+    mainPanel("And this is the main panel...")
+  )
+)
+ui
+```
+
+## input functions / control widgets
+
+[Shiny](https://shiny.rstudio.com/gallery/widget-gallery.html)[widgets](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
+collect a value from your user. When a user changes the widget, the
+value will change as well. You can find more information
+[here](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/).
+
+![](slides-figure/basic-widgets.png "An overview of basic controls supplied by shiny"){width="681"}
+
+## input function / control widgets III
+
++---------------+---------------+---------------+---------------+
+| *function*    | **widget**    | *function*    | **widget**    |
++===============+===============+===============+:==============+
+| `             | Action Button | `             | A field to    |
+| actionButton` |               | numericInput` | enter numbers |
++---------------+---------------+---------------+---------------+
+| `checkboxGroup| A group of    | `             | A set of      |
+|Input`         | check boxes   | radioButtons` | radio buttons |
++---------------+---------------+---------------+---------------+
+| `             | A single      | `selectInput` | A box with    |
+| checkboxInput`| check box     |               | choices to    |
+|               |               |               | select from   |
++---------------+---------------+---------------+---------------+
+| `dateInput`   | A calendar to | `sliderInput` | A slider bar  |
+|               | aid date      |               |               |
+|               | selection     |               |               |
++---------------+---------------+---------------+---------------+
+| `             | A pair of     | `             | A submit      |
+|dateRangeInput`| calendars for | submitButton` | button        |
+|               | selecting a   |               |               |
+|               | date range    |               |               |
++---------------+---------------+---------------+---------------+
+| `fileInput`   | A file upload | `textInput`   | A field to    |
+|               | control       |               | enter text    |
+|               | wizard        |               |               |
++---------------+---------------+---------------+---------------+
+| `helpText`    | Help text     |               |               |
+|               | that can be   |               |               |
+|               | added to an   |               |               |
+|               | input form    |               |               |
++---------------+---------------+---------------+---------------+
+
+: Basic inputfunctions supplied by shiny
+
+## Server
 
 Server functions include everything you would normally to do your
 analysis, but include reactives.
@@ -278,10 +392,15 @@ cache (if nothing changed)
 
 Example:
 
-```{r eval=FALSE, echo = TRUE}
+```{r eval=TRUE, echo = TRUE}
 library(shiny)
 dataset <- reactive({ data(mtcars) })
-dataset()
+print(dataset)
+```
+
+```{r eval = FALSE, echo = TRUE}
+dataset()  # notice, that dataset is now a function
+
 ```
 
 Reactives are the magic sprinkles, that deal with the communication
@@ -289,6 +408,74 @@ between the UI and the Server. Web developers call this concept
 "callback". Usually a tedious experience, but shiny manages this almost
 automatically for you. This is the major USP of shiny (taking care of
 the dependencies).
+
+## outputs
+
+Creating a [reactive
+output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
+requires two components. First an *output function* placed in the UI,
+and second a *render function* written in the server function.
+
++--------------------+----------------------+----------------------+
+| **Output function  | **Render function    | **Output**           |
+| (UI)**             | (Server)**           |                      |
++--------------------+----------------------+----------------------+
+| `dataTableOutput`  | `renderDataTable`    | DataTable            |
++--------------------+----------------------+----------------------+
+| `htmlOutput`       | `renderImage`        | images (saved as a   |
+|                    |                      | link to a source     |
+|                    |                      | file)                |
++--------------------+----------------------+----------------------+
+| `imageOutput`      | `renderPlot`         | plots                |
++--------------------+----------------------+----------------------+
+| `plotOutput`       | `renderPrint`        | any printed output   |
++--------------------+----------------------+----------------------+
+| `tableOutput`      | `renderTable`        | data frame, matrix,  |
+|                    |                      | other table like     |
+|                    |                      | structures           |
++--------------------+----------------------+----------------------+
+| `textOutput`       | `renderText`         | character strings    |
++--------------------+----------------------+----------------------+
+| `uiOutput`         | `renderUI`           | a Shiny tag object   |
+|                    |                      | or HTML              |
++--------------------+----------------------+----------------------+
+
+## output example
+
+```{r text, eval = FALSE, echo=TRUE}
+library(shiny)
+
+# Define UI for app that takes input and output ----
+ui <-  fluidPage(
+
+      # Input: textinput ----
+      textInput(inputId = "firstName",
+                placeholder = "Type your name",
+                label = "What's your name?"
+                ),
+
+      # Output: Text ----
+      textOutput(outputId = "text")
+
+)
+
+
+# Define server logic required to draw a histogram ----
+server <- function(input, output) {
+  
+textReactive  <-  eventReactive(input$firstName,
+                {paste("Hello", input$firstName, "!")},
+                ignoreInit = TRUE)
+  
+  output$text <- renderText({
+        textReactive()
+    })
+
+}
+
+# Create Shiny app ----
+shinyApp(ui = ui, server = server)
+```
 
 ## What is Bootstrap?
 
@@ -305,11 +492,17 @@ Snippets provided in a convenient form
 -   highly customizable like any website - use themes provided by
     bs_theme (we'll look at this later)
 
--   Make your life easier with
-    [bootstraplib](https://www.rdocumentation.org/packages/bootstraplib/versions/0.1.0.9000)
+-   Make your life easier with [bslib](https://rstudio.github.io/bslib/)
 
--   functions for easy changes in style + an interactive styling app w/
-    code generator
+    -   functions for easy changes in style + an interactive styling app
+        w/ code generator
+    -   try following package for an interactive (shiny bases) bootstrap
+        customizer
+
+```{r bs, eval= FALSE, echo=TRUE}
+    library(bslib)
+    bs_theme_preview( bs_theme())  # check the console for the generated code
+    ```
 
 <!-- -->
 
@@ -319,70 +512,6 @@ Snippets provided in a convenient form
         [nanxstats/awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions)
         for an extensive collection of helpful packages for all kind of
         topics
-
-## Layout, Themes & HTML
-
-Provides high-level ( high-level = less complex, low-level = more
-complex) visual structure
-
-Hierarchy of function calls (Waterfall principle + nested)
-
-fluid page, fixed page or fill page ---> provides basis HTML and CSS
-structure (skeleton)
-
-more complex customization need "Layout functions" are nested inside
-fluidpage
-
-![Structure of a basic app with
-sidebar](slides-figure/sidebar.png){width="500"}
-
-## Dashboards
-
--   [shinydashboard](https://rstudio.github.io/shinydashboard/
-)  Maintained by RStudio Developers Team. Well suited for shiny apps. 
-    -   written as shiny app 
-```{r echo=TRUE, eval= FALSE}
-library(shiny)
-library(shinydashboard)
-library(shinydashboardPlus) # bonus features. 
-```
-    
-
--   [flexdashboard](https://pkgs.rstudio.com/flexdashboard/index.html) if you only want to run RMD Documents or if you want to mix content like this dashboard. But its also possible to run shiny by adding <b> runtime: shiny</b> to YAML
-    -   written in a RMD document 
-```{r echo=TRUE, eval= FALSE}
--------------------------------------------
-title: "Interactive Data Vizualisations"
-runtime: shiny
--------------------------------------------
-```
-
-
-## Ressources
-
-[Mastering Shiny Build interactive Apps, Reports & Dashboards Powered by
-R](https://mastering-shiny.org) 
-
--   Very good guide for basic & advanced
-mechanics of shiny by Hadley Wickham (Tidyverse Guy)
-
-Shiny cheatsheet, available from
-<https://www.rstudio.com/resources/cheatsheets/> ![Shiny
-cheatsheet](slides-figure/cheatsheet.png){width="500"}
-
-# Second Session
-
-## Advanced Topics and pointers
-
--   HTML, CSS, JavaScript
-
-## Reactive expressions
-
-eventReactive minimize dependencies Render --> for looks/output observe
---> for sideffects( downloadhandler, read data from disc, ....)
-
-observeEvent = observe({x, isolate(y)}) decouples from listening to
-action
 
 ## Deploying your App to the Web
 
@@ -394,27 +523,132 @@ action
 3.  Publish!
 
 
-## Pointers I
-[ShinyWidgets](http://shinyapps.dreamrs.fr/shinyWidgets/)
 
+# Second Session
+
+## tags
+
+```{r lol}
+library(shiny)
+
+body <-  HTML("body {
+  background-color: lightgrey;
+}" )
+
+
+ui <- fluidPage( tags$style(body),
+  titlePanel("This is the title panel"),
+
+  sidebarLayout(
+    sidebarPanel( "Ths is the sidebar panel"),
+    mainPanel("And this is the main panel...")
+  )
+)
+
+ui
+```
+
+## Interactive Data Visualization
+
+-   Most popular and best documented frameworks are Plotly, Highcharts,
+    leaflet (and d3)
+
+    -   all of them are based in JavaScript (JS).
+    -   luckily you don't need to know JS, as customizing is mostly done
+        in wrappers for various languages (R, Python, ...)
+    -   interactivity can only be achieved, where you can run JS (web
+        browser) . That's why HTML documents is the gold standard
+
+-   There are a few ways to share your work - Save your Work as a HTML
+    document (share the doc or embed it in your website). - write in a
+    RMD document and then render to ioslides or slidy (creates also an
+    HTML document; share or embed) - write a shiny app (deploy to
+    shinyclouds or own server)
+
+-   frequently used frameworks:
+
+-   Plotly is the most popular and easiest to work with.
+
+-   Highcharts is less known, relatively customizable and free to use in
+    non commercial settings
+
+-   leaflet is great for interactive maps
+
+## Reactive expressions
+
+eventReactive minimize dependencies Render --> for looks/output observe
+--> for sideffects( downloadhandler, read data from disc, ....)
+
+observeEvent = observe({x, isolate(y)}) decouples from listening to
+action
+
+## Dashboards
+
+-   [shinydashboard](https://rstudio.github.io/shinydashboard/)
+    Maintained by RStudio Developers Team. Well suited for shiny apps.
+
+    -   written as shiny app
+
+    ```{r echo=TRUE, eval= FALSE}
+    library(shiny)
+    library(shinydashboard)
+    library(shinydashboardPlus) # bonus features. 
+    ```
+
+-   [flexdashboard](https://pkgs.rstudio.com/flexdashboard/index.html)
+    if you only want to run RMD Documents or if you want to mix content
+    like this dashboard. But its also possible to run shiny by adding
+    <b> runtime: shiny</b> to YAML
+
+    -   written in a RMD document
+
+    ```{r echo=TRUE, eval= FALSE}
+    -------------------------------------------
+    title: "Interactive Data Vizualisations"
+    runtime: shiny
+    -------------------------------------------
+    ```
+
+
+## Deploying your App to the Web
+
+1.  Go to <https://www.shinyapps.io> and create an account or log in
+    with Google/GitHub
+
+2.  Follow the instructions for connecting your machine to the server.
+
+3.  Publish!
+
+## Pointers I
+
+[ShinyWidgets](http://shinyapps.dreamrs.fr/shinyWidgets/)
 
 ## Pointers II
 
--   Once you are familiar with Shiny it's easy to reuse your know how to create interactive helper for R
+-   Once you are familiar with Shiny it's easy to reuse your know how to
+    create interactive helper for R
     <https://shiny.rstudio.com/articles/gadgets.html>
--   [Harvard Lecture](https://www.youtube.com/watch?v=zFZrkCIc2Oc) on YouTube, check out the first lecture for a good introduction to those topics.
+
+-   [Harvard Lecture](https://www.youtube.com/watch?v=zFZrkCIc2Oc) on
+    YouTube, check out the first lecture for a good introduction to
+    those topics.
+
 -   Some Android apps to learn HTML, CSS, JavaScript
-    -   https://play.google.com/store/apps/details?id=com.codeliber.html
-    -   https://play.google.com/store/apps/details?id=com.codeliber.css
-    -   https://play.google.com/store/apps/details?id=com.codeliber.js
+
+    -   <https://play.google.com/store/apps/details?id=com.codeliber.html>
+    -   <https://play.google.com/store/apps/details?id=com.codeliber.css>
+    -   <https://play.google.com/store/apps/details?id=com.codeliber.js>
 
 ## Pointers III
 
 [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
-[Book Plotly for R](https://plotly-r.com/preface.html)
-## other Interactive Data Visualization Frameworks
+[Book Plotly for R](https://plotly-r.com/preface.html) ## other
+Interactive Data Visualization Frameworks
 
--   [Dash R, a plotly based App with inputs and output (similar to shiny, but less powerful)](https://dash.gallery/Portal/)
--   [Voilà turns Jupyter notebooks into standalone applications.](https://voila-gallery.org/)
+-   [Dash R, a plotly based App with inputs and output (similar to
+    shiny, but less powerful)](https://dash.gallery/Portal/)
+-   [Voilà turns Jupyter notebooks into standalone
+    applications.](https://voila-gallery.org/)
 -   [streamlit](https://streamlit.io/)
--   [D3 for R, extremely customizable data visualizations, but also very timeconsuming](https://www.rstudio.com/blog/r2d3-r-interface-to-d3-visualizations/)
+-   [D3 for R, extremely customizable data visualizations, but also very
+    timeconsuming](https://www.rstudio.com/blog/r2d3-r-interface-to-d3-visualizations/)

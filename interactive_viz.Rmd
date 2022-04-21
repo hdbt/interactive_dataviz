@@ -33,7 +33,7 @@ ggplotly turns your ggplot graphs with the function *ggplotly()* into an interac
 
 plotly uses a different syntax style, but provides more interactive capabilities
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE, size= "100%"}
 library(plotly)
 library(broom)
 library(dplyr)

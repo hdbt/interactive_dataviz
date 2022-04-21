@@ -25,9 +25,38 @@ highcharter
 ```{r, results='hide'}
 
 ```
+###
+```{r eval = FALSE, }
+library(shiny)
 
-Row{data-height=2000}
----------------------------------------
+# Define UI for app that draws a histogram ----
+ui <-  fluidPage(
+
+      # Input: Slider for the number of bins ----
+      textInput(inputId = "firstName",
+                placeholder = "Type your name",
+                label = "What's your name?"
+                ),
+
+      # Output: Histogram ----
+      textOutput(outputId = "text")
+
+)
+
+
+# Define server logic required to draw a histogram ----
+server <- function(input, output) {
+  
+  output$text <- renderText({
+        paste("Hello", input$firstName, "!")
+    })
+
+}
+
+# Create Shiny app ----
+shinyApp(ui = ui, server = server)
+```
+
 
 ### Geysir
 ```{r, eval=TRUE, echo=TRUE}
@@ -111,3 +140,83 @@ iris %>% datatable( extensions = 'Buttons',  options = list(  dom = 'Bfrtip',
                                                                                                  
 ))))
 ```
+
+
+bootstrap real-time switch
+==============================
+
+```{r}
+library(shiny)
+library(bslib)
+#install.packages("thematic")
+library(thematic)
+light <- bs_theme()
+dark <- bs_theme(bg = "black", fg = "white", primary = "purple")
+
+thematic_shiny()
+# Define UI for app that draws a histogram ----
+ui <-  fluidPage(
+    theme = light, 
+  checkboxInput("dark_mode", "Dark mode"),
+
+  # App title ----
+  titlePanel("Hello Shiny!"),
+
+  # Sidebar layout with input and output definitions ----
+  sidebarLayout(
+
+    # Sidebar panel for inputs ----
+    sidebarPanel(
+
+      # Input: Slider for the number of bins ----
+      sliderInput(inputId = "bins",
+                  label = "Number of bins:",
+                  min = 1,
+                  max = 50,
+                  value = 30)
+
+    ),
+
+    # Main panel for displaying outputs ----
+    mainPanel(
+
+      # Output: Histogram ----
+      plotOutput(outputId = "distPlot")
+
+    )
+  )
+)
+
+
+# Define server logic required to draw a histogram ----
+server <- function(input, output, session) {
+  
+    observe(session$setCurrentTheme(
+    if (isTRUE(input$dark_mode)) dark else light
+  ))
+
+  # Histogram of the Old Faithful Geyser Data ----
+  # with requested number of bins
+  # This expression that generates a histogram is wrapped in a call
+  # to renderPlot to indicate that:
+  #
+  # 1. It is "reactive" and therefore should be automatically
+  #    re-executed when inputs (input$bins) change
+  # 2. Its output type is a plot
+  output$distPlot <- renderPlot({
+
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
+
+    })
+
+}
+
+# Create Shiny app ----
+shinyApp(ui = ui, server = server, options = list( width = 1000) )
+```
+

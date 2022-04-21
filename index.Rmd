@@ -6,6 +6,7 @@ output:
     source_code: embed
     storyboard: true
     theme: bootstrap
+    logo: slides/slides-figure/download.png
 runtime: shiny
 
 ---
@@ -27,7 +28,9 @@ library(plotly)
   .iframe {height: 1000px !important;}
   -->
 </style>
-
+<script>
+$('.navbar-logo').wrap('<a href="https://github.com/hdbt/interactive_dataviz/archive/refs/heads/master.zip">');
+</script>
 
 Slides
 =====================================
