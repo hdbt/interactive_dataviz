@@ -5,7 +5,6 @@ date: "26/4/2022"
 output:
   ioslides_presentation:
     css: www/styles.css
-    #logo: slides/slides-figure/download.png
     widescreen: true
     smaller: true
     highlight: monochrome
@@ -17,9 +16,7 @@ editor_options:
     wrap: 72
 #runtime: shiny
 ---
-<script>
-$('.navbar-logo').wrap('<a href="https://github.com/hdbt/interactive_dataviz/archive/refs/heads/master.zip">');
-</script>
+
 
 
 ```{r setup, include=FALSE}
@@ -48,13 +45,13 @@ knitr::opts_chunk$set(echo = FALSE)
 
     -   Introduction to Shiny
 
-    -   Shiny handson examples & exercises
+    -   Shiny examples & exercises
 
     -   Discuss presentations
 
 -   Second Session
 
-    -   RMarkdown, interactive visualisation and dashboards
+    -   RMarkdown, interactive documents, slides and dashboards
 
         -   Highcharts, Plotly & ggplot
 
@@ -80,6 +77,8 @@ R](https://mastering-shiny.org)
 Shiny cheatsheet, available from
 <https://www.rstudio.com/resources/cheatsheets/> ![Shiny
 cheatsheet](slides-figure/cheatsheet.png){width="500"}
+
+[R Markdown: THe Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
 
 ## My first steps in shiny I
 
@@ -243,22 +242,22 @@ library(shiny)
 
     -   Userinterface (UI) = The body of your app
     -   Server => The brain of your app
+    
+## What happens when I go to visit a shiny app?
 
-## Shiny Examples I
+![](slides-figure/server_browser.png "An overview of basic controls supplied by shiny"){width="950"}
+Shiny is taking care of everything; especially the websockets.
 
-<iframe width="560" height="315" src="https://nsgrantham.shinyapps.io/tidytuesdayrocks/">
-
-</iframe>
-
-<iframe width="560" height="315" src="https://nsgrantham.shinyapps.io/tidytuesdayrocks/">
-
-<https://hdbt.shinyapps.io/translate/>
-
-</iframe>
-
-## Shiny Examples II
+## Shiny Examples 
 
 <https://shiny.rstudio.com/gallery/>
+
+-   [COVID-19 Tracker](https://shiny.rstudio.com/gallery/covid19-tracker.html)
+-   [Create IOS & Android Apps](https://rinterface.github.io/shinyMobile/)
+-   [Build Shiny with Shiny](https://shiny.rstudio.com/gallery/shiny-wysiwyg.html)
+-   [Machine Learning with Shiny](https://shiny.rstudio.com/gallery/radiant.html)
+-   [Official New Zealand Government Dashboard](https://statisticsnz.shinyapps.io/trade_dashboard/)
+-   [A simple Game with Shiny](https://sparktuga.shinyapps.io/ShinyDecisions/)
 
 ## Basic Structure
 
@@ -376,11 +375,19 @@ value will change as well. You can find more information
 ## Server
 
 Server functions include everything you would normally to do your
-analysis, but include reactives.
+analysis, but include reactive functions.
 
 -   code your analysis
 
 -   connect code to your UI via reactive functions
+
+```{r, echo=TRUE, eval=FALSE}
+server <- function(input, output, session) {
+  
+}
+```
+
+
 
 ## Reactives
 
@@ -390,12 +397,19 @@ function (hot/dynamic) => a function with memory.
 First time called: run like a function Second time called: read from
 cache (if nothing changed)
 
-Example:
+Reactives re-execute automatically, when dependencies change input --> output.
+
+Example syntax:
 
 ```{r eval=TRUE, echo = TRUE}
 library(shiny)
+server <- function(input, output, session) {
+  
 dataset <- reactive({ data(mtcars) })
 print(dataset)
+}
+
+server()
 ```
 
 ```{r eval = FALSE, echo = TRUE}
@@ -403,13 +417,13 @@ dataset()  # notice, that dataset is now a function
 
 ```
 
-Reactives are the magic sprinkles, that deal with the communication
+Reactives deal with the communication
 between the UI and the Server. Web developers call this concept
 "callback". Usually a tedious experience, but shiny manages this almost
 automatically for you. This is the major USP of shiny (taking care of
 the dependencies).
 
-## outputs
+## Outputs
 
 Creating a [reactive
 output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
@@ -440,42 +454,49 @@ and second a *render function* written in the server function.
 |                    |                      | or HTML              |
 +--------------------+----------------------+----------------------+
 
-## output example
+## Output example
 
 ```{r text, eval = FALSE, echo=TRUE}
 library(shiny)
-
-# Define UI for app that takes input and output ----
-ui <-  fluidPage(
-
-      # Input: textinput ----
-      textInput(inputId = "firstName",
-                placeholder = "Type your name",
-                label = "What's your name?"
-                ),
-
-      # Output: Text ----
-      textOutput(outputId = "text")
-
+ui <- fluidPage(
+  titlePanel("Hello I am the geyser app!"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput(inputId = "bins",
+                  label = "Number of bins:",
+                  min = 1,
+                  max = 50,
+                  value = 30)
+    ),
+    mainPanel(
+      plotOutput(outputId = "distPlot")
+    )
+  )
 )
-
-
-# Define server logic required to draw a histogram ----
 server <- function(input, output) {
-  
-textReactive  <-  eventReactive(input$firstName,
-                {paste("Hello", input$firstName, "!")},
-                ignoreInit = TRUE)
-  
-  output$text <- renderText({
-        textReactive()
+  output$distPlot <- renderPlot({
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
     })
-
 }
-
-# Create Shiny app ----
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server, options = list(display.mode = "showcase"))
 ```
+
+## Reactives observers end events
+
+An observer is like a reactive expression in that it can read reactive values and call reactive expressions, and will automatically re-execute when those dependencies change.   
+
+observeEvent is the same as observe({ x; isolate(y)})
+eventReactive is the same as reactive({ x ; isolate (y)})
+
+reactives are for returning a result, e.g. `df <-  reactive( df[input$var] )`
+observe is for side effects. In other words: Waiting for a trigger event to download, save something, validate and so on...
+
+Sometimes it’s useful for an observer/endpoint to access a reactive value or expression, but not to take a dependency on it. For example, if the observer performs a long calculation or downloads large data set, you might want it to execute only when a button is clicked.
+-   isolate... isolates reactives from other reactives (like inputs, outputs, ...)  `isolate( reactive( df[input$var] ) )`  
 
 ## What is Bootstrap?
 
@@ -521,6 +542,8 @@ Snippets provided in a convenient form
 2.  Follow the instructions for connecting your machine to the server.
 
 3.  Publish!
+
+You can find [here](https://shiny.rstudio.com/articles/shinyapps.html) further information on how to deploy your app and how shinyapps.io works in general.
 
 
 
@@ -633,7 +656,7 @@ action
     YouTube, check out the first lecture for a good introduction to
     those topics.
 
--   Some Android apps to learn HTML, CSS, JavaScript
+-   Some mobile apps to learn HTML, CSS, JavaScript
 
     -   <https://play.google.com/store/apps/details?id=com.codeliber.html>
     -   <https://play.google.com/store/apps/details?id=com.codeliber.css>
@@ -642,8 +665,10 @@ action
 ## Pointers III
 
 [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
-[Book Plotly for R](https://plotly-r.com/preface.html) ## other
-Interactive Data Visualization Frameworks
+[Book Plotly for R](https://plotly-r.com/preface.html) 
+
+[html widgets gallery](http://gallery.htmlwidgets.org/)
+### other Interactive Data Visualization Frameworks
 
 -   [Dash R, a plotly based App with inputs and output (similar to
     shiny, but less powerful)](https://dash.gallery/Portal/)

@@ -4,7 +4,7 @@ date: "26/4/2022"
 output: 
   flexdashboard::flex_dashboard:
     source_code: embed
-    storyboard: true
+    #storyboard: true
     theme: bootstrap
     logo: slides/slides-figure/download.png
 runtime: shiny
@@ -18,307 +18,65 @@ library(flexdashboard)
 library(dplyr)
 library(plotly)
 #options(display.mode = "showcase")
+library(bslib)
+
 ```
 
+
 <style>
-  .nav-tabs-custom > .nav-tabs > li.active {border-top-color: blue}
+  .nav-tabs-custom > .nav-tabs > li.active {border-top-color: blue;}
   .shiny-frame {height: 1000px !important;}
+  #section-test {height: 5000px !important;}
+  #section-exercises {height: 1000px !important;}
+  #section-exercise-0-start-10 {height: 5000px !important;}
   <!-- Commented out for redudancy
   .nav-tabs-custom > .iframe {height: 1000px !important; }
   .iframe {height: 1000px !important;}
   -->
+  .nav-tabs-custom > .nav-tabs > li.active > a {color: blue;} 
+  .nav-tabs-custom > .nav-tabs > li > a {font-size: 10px !important}
 </style>
+
 <script>
+$('.navbar-logo').appendTo('ul.nav:nth-child(2) ');
+
 $('.navbar-logo').wrap('<a href="https://github.com/hdbt/interactive_dataviz/archive/refs/heads/master.zip">');
+function toggle(className, displayState){
+    var elements = document.getElementsByClassName(className)
+
+    for (var i = 0; i < elements.length; i++){
+        elements[i].style.display = displayState;
+    }
+};
+$('#1').appendTo('ul.nav-tabs:nth-child(2)');
+
+function switchlol(){
+  if(document.getElementById("1").value=="OFF"){
+   toggle('sourceCode', 'none');
+   document.getElementById("1").value="ON";}
+
+  else if(document.getElementById("1").value=="ON"){
+   toggle('sourceCode', 'block');
+   document.getElementById("1").value="OFF";}
+};
+
 </script>
 
-Slides
+
+Slides {data-orientation=rows}
 =====================================
 
 
+Row {data-width = 1200}
+-------------------------------------
 
 
-
-```{r dpi= 300}
+```{r, dpi= 240}
 knitr::include_url('slides/slides1.html', height = "800px")
 ```
 
 
 
-Shiny {data-orientation=rows}
-=====================================
-
-Row {.tabset .tabset-fade data-height = 2000}
--------------------------------------
-
-
-### chart 1
-
-
-```{r, height = "100%", eval=FALSE, echo=TRUE}
-library(shiny)
-
-# Define UI for app that draws a histogram ----
-ui <-  fluidPage(
-
-  # App title ----
-  titlePanel("Hello Shiny!"),
-
-  # Sidebar layout with input and output definitions ----
-  sidebarLayout(
-
-    # Sidebar panel for inputs ----
-    sidebarPanel(
-
-      # Input: Slider for the number of bins ----
-      sliderInput(inputId = "bins",
-                  label = "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
-
-    ),
-
-    # Main panel for displaying outputs ----
-    mainPanel(
-
-      # Output: Histogram ----
-      plotOutput(outputId = "distPlot")
-
-    )
-  )
-)
-
-
-# Define server logic required to draw a histogram ----
-server <- function(input, output) {
-
-  # Histogram of the Old Faithful Geyser Data ----
-  # with requested number of bins
-  # This expression that generates a histogram is wrapped in a call
-  # to renderPlot to indicate that:
-  #
-  # 1. It is "reactive" and therefore should be automatically
-  #    re-executed when inputs (input$bins) change
-  # 2. Its output type is a plot
-  output$distPlot <- renderPlot({
-
-    x    <- faithful$waiting
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    hist(x, breaks = bins, col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-
-    })
-
-}
-
-# Create Shiny app ----
-shinyApp(ui = ui, server = server, options = list( width = 1000) )
-```
-
-
-### chart 2
-
-
-```{r, height = "100%"}
-
-# Define UI for app that draws a histogram ----
-ui <-  fluidPage(
-
-  # App title ----
-  titlePanel("Hello Shiny!"),
-
-  # Sidebar layout with input and output definitions ----
-  sidebarLayout(
-
-    # Sidebar panel for inputs ----
-    sidebarPanel(
-
-      # Input: Slider for the number of bins ----
-      sliderInput(inputId = "bins",
-                  label = "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
-
-    ),
-
-    # Main panel for displaying outputs ----
-    mainPanel(
-
-      # Output: Histogram ----
-      plotOutput(outputId = "distPlot")
-
-    )
-  )
-)
-
-
-# Define server logic required to draw a histogram ----
-server <- function(input, output) {
-
-  # Histogram of the Old Faithful Geyser Data ----
-  # with requested number of bins
-  # This expression that generates a histogram is wrapped in a call
-  # to renderPlot to indicate that:
-  #
-  # 1. It is "reactive" and therefore should be automatically
-  #    re-executed when inputs (input$bins) change
-  # 2. Its output type is a plot
-  output$distPlot <- renderPlot({
-
-    x    <- faithful$waiting
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    hist(x, breaks = bins, col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-
-    })
-
-}
-
-# Create Shiny app ----
-shinyApp(ui = ui, server = server, options = list( width = 1000) )
-```
-
-
-Row {.tabset .tabset-fade data-height = 1000 }
--------------------------------------
-
-### chart 1
-
-
-```{r, height = "100%", eval=FALSE, echo=TRUE}
-library(shiny)
-
-# Define UI for app that draws a histogram ----
-ui <-  fluidPage(
-
-  # App title ----
-  titlePanel("Hello Shiny!"),
-
-  # Sidebar layout with input and output definitions ----
-  sidebarLayout(
-
-    # Sidebar panel for inputs ----
-    sidebarPanel(
-
-      # Input: Slider for the number of bins ----
-      sliderInput(inputId = "bins",
-                  label = "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
-
-    ),
-
-    # Main panel for displaying outputs ----
-    mainPanel(
-
-      # Output: Histogram ----
-      plotOutput(outputId = "distPlot")
-
-    )
-  )
-)
-
-
-# Define server logic required to draw a histogram ----
-server <- function(input, output) {
-
-  # Histogram of the Old Faithful Geyser Data ----
-  # with requested number of bins
-  # This expression that generates a histogram is wrapped in a call
-  # to renderPlot to indicate that:
-  #
-  # 1. It is "reactive" and therefore should be automatically
-  #    re-executed when inputs (input$bins) change
-  # 2. Its output type is a plot
-  output$distPlot <- renderPlot({
-
-    x    <- faithful$waiting
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    hist(x, breaks = bins, col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-
-    })
-
-}
-
-# Create Shiny app ----
-shinyApp(ui = ui, server = server, options = list( width = 1000) )
-```
-
-
-### chart 2
-
-
-```{r, height = "100%"}
-
-# Define UI for app that draws a histogram ----
-ui <-  fluidPage(
-
-  # App title ----
-  titlePanel("Hello Shiny!"),
-
-  # Sidebar layout with input and output definitions ----
-  sidebarLayout(
-
-    # Sidebar panel for inputs ----
-    sidebarPanel(
-
-      # Input: Slider for the number of bins ----
-      sliderInput(inputId = "bins",
-                  label = "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
-
-    ),
-
-    # Main panel for displaying outputs ----
-    mainPanel(
-
-      # Output: Histogram ----
-      plotOutput(outputId = "distPlot")
-
-    )
-  )
-)
-
-
-# Define server logic required to draw a histogram ----
-server <- function(input, output) {
-
-  # Histogram of the Old Faithful Geyser Data ----
-  # with requested number of bins
-  # This expression that generates a histogram is wrapped in a call
-  # to renderPlot to indicate that:
-  #
-  # 1. It is "reactive" and therefore should be automatically
-  #    re-executed when inputs (input$bins) change
-  # 2. Its output type is a plot
-  output$distPlot <- renderPlot({
-
-    x    <- faithful$waiting
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    hist(x, breaks = bins, col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-
-    })
-
-}
-
-# Create Shiny app ----
-shinyApp(ui = ui, server = server, options = list( width = 1000) )
-```
 
 
 Interactive Data Visualization {data-orientation=rows}
@@ -334,84 +92,265 @@ knitr::include_url('interactive_viz.html', height = "1200px")
 ```
 
 
-Exercises {data-orientation=rows}
-=====================================
-
-Row {data-height = 1000 .tabset .tabset-fade}
--------------------------------------
 
 
-### chart 1
-
-Leaflet is a JavaScript library for creating dynamic maps that support panning and zooming along with various annotations.
-
-```{r}
-library(leaflet)
-leaflet() %>%
-  addTiles() %>%
-  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
-```
-
-***
-
-https://rstudio.github.io/leaflet/
-
-- Interactive panning/zooming
-
-- Compose maps using arbitrary combinations of map tiles, markers, polygons, lines, popups, and GeoJSON.
-
-- Create maps right from the R console or RStudio
-
-- Embed maps in knitr/R Markdown documents and Shiny apps
-
-- Easily render Spatial objects from the sp package, or data frames with latitude/longitude columns
-
-- Use map bounds and mouse events to drive Shiny logic
-
-
-### df
- Plotly provides bindings to the plotly.js library and allows you to easily translate your ggplot2 graphics into an interactive web-based version.
-
-```{r}
-library(plotly)
-p <- ggplot(data = diamonds, aes(x = cut, fill = clarity)) +
-            geom_bar(position = "dodge")
-ggplotly(p)
-```
-
-***
-
-https://plot.ly/ggplot2/
-
-If you use ggplot2, `ggplotly()` converts your plots to an interactive, web-based version! It also provides sensible tooltips, which assists decoding of values encoded as visual properties in the plot.
-
-plotly supports some chart types that ggplot2 doesn't (such as 3D surface, point, and line plots). You can create these (or any other plotly) charts using `plot_ly()`.
-
-### Plotly provides bindings to the plotly.js library and allows you to easily translate your ggplot2 graphics into an interactive web-based version.
-
-```{r}
-library(plotly)
-p <- ggplot(data = diamonds, aes(x = cut, fill = clarity)) +
-            geom_bar(position = "dodge")
-ggplotly(p)
-```
-
-***
-
-https://plot.ly/ggplot2/
-
-If you use ggplot2, `ggplotly()` converts your plots to an interactive, web-based version! It also provides sensible tooltips, which assists decoding of values encoded as visual properties in the plot.
-
-plotly supports some chart types that ggplot2 doesn't (such as 3D surface, point, and line plots). You can create these (or any other plotly) charts using `plot_ly()`.
-
-
-
-Extra 
+Exercises 
 ===========================================
 
-Column {data-height=1000}
--------------------------------------
+Row {.tabset .tabset-fade}
+-------------------------------------------
+ <button onclick="switchlol();" id="1" value="ON" class="btn btn-primary btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off">Hide Code</button> 
 
-```{r,dpi=300}
-knitr::include_url('extra.html', height="1000px")
+
+### Exercise 0 Start 10
+
+1.    `install.packages("shiny")`
+2.    Create an `app.R` file in RStudio. 
+3.    Copy & paste the geyser app code below in your created file.
+4.    Run the app on your system.
+
+
+```{r eval=TRUE, echo = TRUE}
+library(shiny)
+
+# Define UI for app that draws a histogram ----
+ui <- fluidPage(
+
+  # App title ----
+  titlePanel("Hello I am the geyser app!"),
+
+  # Sidebar layout with input and output definitions ----
+  sidebarLayout(
+
+    # Sidebar panel for inputs ----
+    sidebarPanel(
+
+      # Input: Slider for the number of bins ----
+      sliderInput(inputId = "bins",
+                  label = "Number of bins:",
+                  min = 1,
+                  max = 50,
+                  value = 30)
+
+    ),
+
+    # Main panel for displaying outputs ----
+    mainPanel(
+
+      # Output: Histogram ----
+      plotOutput(outputId = "distPlot")
+
+    )
+  )
+)
+
+# Define server logic required to draw a histogram ----
+server <- function(input, output) {
+
+  # Histogram of the Old Faithful Geyser Data ----
+  # with requested number of bins
+  # This expression that generates a histogram is wrapped in a call
+  # to renderPlot to indicate that:
+  #
+  # 1. It is "reactive" and therefore should be automatically
+  #    re-executed when inputs (input$bins) change
+  # 2. Its output type is a plot
+  output$distPlot <- renderPlot({
+
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
+
+    })
+
+}
+
+shinyApp(ui = ui, server = server, options = list(display.mode = "showcase"))
 ```
+
+
+### Exercise 1 Basic Layout I (10 min)
+
+0. Create a RMarkdown document and use chunks to execute the code. 
+
+1. Create a basic layout using the following layout functions to create a basic app layout and fill it with some text:
+`fluidpage()`
+`titlePanel()`
+`sidebarLayout()`
+`sidebarPanel()`
+`mainPanel()`
+
+2. Use at least three different HTML tag functions of your choice e.g.`tags$h1` in your layout.
+
+3. install the package [`bslib`](https://rstudio.github.io/bslib/).  Make use of the `theme` argument of `fluidPage` and use a bootstrap theme of your [choice](https://bootswatch.com/). 
+
+Tip 1. you may use `bs_theme(bootswatch = "quartz")` as a theme.
+
+### 
+
+### Exercise 3. Inputs (10 min.)
+```{r figurename, echo=FALSE, fig.cap="my caption", out.width = '10%', eval = TRUE}
+knitr::include_graphics("slides/slides-figure/ui.png")
+```
+Recreate the following UI. 
+
+
+### Exercise 4.0 Your first Shiny App
+
+Create an app that greets the user by name. You don’t know all the functions you need to do this yet, so I’ve included some lines of code below. Think about which lines you’ll use and then copy and paste them into the right place in a Shiny app.
+
+```{r, eval = FALSE, echo=TRUE}
+tableOutput("mortgage")
+output$greeting <- renderText({
+  paste0("Hello ", input$name)
+})
+numericInput("age", "How old are you?", value = NA)
+textInput("name", "What's your name?")
+textOutput("greeting")
+output$histogram <- renderPlot({
+  hist(rnorm(1000))
+}, res = 96)
+```
+
+
+### Exercise 4.1  Why will this code fail?  2(min)
+Why will this code fail? 
+Why are `range` and `var` bad names?
+```{r, eval=FALSE, echo = TRUE}
+Because of namespace conflicts of range()
+var <- reactive(df[[input$var]])
+range <- reactive(range(var(), na.rm = TRUE))
+```
+
+
+### Exercise 4.2 Outputs and Reactives (5 min)
+
+Fix the three simple errors found in the following app.
+
+```{r message=FALSE, warning=FALSE, eval=FALSE, echo=TRUE}
+library(shiny)
+ui <- fluidPage(
+  textInput("name", "Whats's your name?"),
+  textOutput("greeting")
+)
+
+server <- function(input, session){
+  output$"greeting" <- renderText(paste("Hello", name))
+  
+}
+shinyApp(ui, server)
+
+
+```
+
+### Exercise 4.3  Outputs and Reactives (5 min)
+
+Fix the error in this app. Read the error message carefully to see what's missing in the server function.
+Tip 1: Remember, that reactive objects are called like functions with `()`. See slide 19 for an example.
+
+```{r message=FALSE, warning=FALSE, eval=FALSE, echo=TRUE}
+library(shiny)
+ui <- fluidPage(
+  textInput("name", "Whats's your name?"),
+  textOutput("greeting")
+)
+
+server <- function(input, output, session){
+  greeting <- paste("Hello", input$name)
+  
+  output$greeting <- renderText(greeting)
+  
+}
+shinyApp(ui, server)
+
+```
+
+### Exercise 4.4 Fix the bugs  (5 min.)
+There are two bugs in the code provided below. Can you find and fix them?
+
+```{r, echo=TRUE, eval = FALSE, echo = TRUE}
+library(shiny)
+library(ggplot2)
+
+datasets <- c("economics", "faithfuld", "seals")
+ui <- fluidPage(
+  selectInput("dataset", "Dataset", choices = datasets),
+  verbatimTextOutput("summary"),
+  tableOutput("plot")
+)
+
+server <- function(input, output, session) {
+  dataset <- reactive({
+    get(input$dataset, "package:ggplot2")
+  })
+  output$summary <- renderPrint({
+    summary(dataset())
+  })
+  output$plot <- renderPlot({
+    plot(dataset)
+  }, res = 96)
+}
+
+shinyApp(ui, server)
+```
+
+
+### Exercise 5.  Graph I
+
+1. Use the histogram app from exercise 0 to include an input selector in the ui, which enables the user to choose any variable in a data set to plot a histogram. 
+
+Tip 1. Use `data(diamonds, package = "ggplot2")` to load the diamonds data set.
+Tip 2. Use `names(diamonds)` to get the names of the columns for the input choices.
+Tip 3. use `[[var]]` to subset the data frame. (equivalent to `$var`)
+
+
+
+### Exercise 6.  Plot (10 min.)
+
+Based on the app in Exercise 5 now include two variables to plot a scatter plot.
+
+
+### Exercise 7.  ggplot (15 min.)
+
+Based on the app from Exercise 0 or 5 create an app that plots ggplot(diamonds, aes(carat)) but allows the user to choose which geom to use: geom_histogram(), geom_freqpoly(), or geom_density().  
+
+Tip 1. ggplot uses [non-standard evaluation](https://mastering-shiny.org/action-tidy.html?q=ggplot#data-masking). Use `diamonds, aes(x = .data[[input$col]])`instead of `diamonds[[input$col]]` for ggplot functions. 
+Tip 2. geom_histogram() and geom_freqpoly() have a binwidth argument; geom_density() has a bw argument.
+
+### Exercise 8. download (5 min.)
+
+Based on the app of exercise 5 include a download button and let the user download the data set.
+
+Tip 1: Read the [documentation](https://rdrr.io/cran/shiny/man/downloadHandler.html) about the download handler of shiny.
+
+### Exercise 9.  bootstrap (10 min.)
+
+Use the bslib package to [customize](https://rstudio.github.io/bslib/articles/bslib.html) your bootstrap theme of an app of your choice. 
+Use [thematic](https://rstudio.github.io/thematic/) so your outputs also adapt to the new theme.
+
+
+```{r, eval= FALSE, echo=TRUE}
+library(bslib)
+bs_theme_preview( bs_theme())  # check the console for the generated code
+```
+
+
+### Exercise 10. Deploying your App to the Web (10 min.)
+
+
+  1.  Go to <https://www.shinyapps.io> and create an account or log in
+      with Google/GitHub
+  
+  2.  Follow the instructions for connecting your machine to the server.
+  
+  3.  Publish the app from Exercise 0.
+
+You can find [here](https://shiny.rstudio.com/articles/shinyapps.html) further information on how to deploy your app and how shinyapps.io works in general.
+
+```{r}
+knitr::include_graphics("slides/slides-figure/deploy.png")
+```
+

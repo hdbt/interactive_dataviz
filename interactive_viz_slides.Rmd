@@ -1,0 +1,53 @@
+---
+title: "Interactivity"
+output:
+  ioslides_presentation:
+    #css: www/styles.css
+    widescreen: yes
+    smaller: yes
+    highlight: monochrome
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Slides
+
+### Diamonds
+
+```{r message=FALSE, warning=FALSE}
+library(plotly)
+library(broom)
+library(dplyr)
+data(diamonds, package = "ggplot2")
+
+data <- sample_n(diamonds, 300)
+
+modlss <- loess(price ~ carat, data = data)
+fit <- augment(modlss, se_fit = TRUE)
+
+
+fig <- plot_ly(data = data, x = ~carat) %>% 
+  add_markers(y = ~price, 
+              color = ~cut, 
+              size = ~carat, 
+              text = ~paste("Price: ", price, '$<br>Cut:', cut)) %>%
+  add_lines(y = ~fitted(loess(price ~ carat)),
+                         line = list(color = 'lightblue'),
+                         name = "Loess Smoother") %>%
+  add_ribbons(data = augment(loess(price ~ carat,data = data),se_fit = TRUE), 
+              ymin = ~.fitted - 2 * .se.fit,
+              ymax = ~.fitted + 2 * .se.fit,
+              line = list(color = "rgba(2, 162, 182, 0.05)"),
+              fillcolor = "rgba(2, 162, 182, 0.2)",
+              name = "Standarderror"
+              )
+
+
+fig
+```
+

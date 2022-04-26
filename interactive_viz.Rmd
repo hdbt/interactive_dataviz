@@ -3,22 +3,25 @@ title: "Interactivity"
 output:
   html_document:
     toc: yes
-    theme: readable
+    theme: lumen 
     #number_sections: yes
     code_folding: hide
     toc_depth: 2
     toc_float: yes
+    code_download: true
+    #css: slides/www/style.css
   html_notebook:
-    toc: yes
-    theme: readable
-    #number_sections: yes
-    code_folding: hide
-    toc_depth: 3
-    toc_float: yes
+   toc: yes
+   theme: lumen 
+   #number_sections: yes
+   code_folding: hide
+   toc_depth: 3
+   toc_float: yes
 editor_options:
   markdown:
-    wrap: 72
+    wrap: 140
 ---
+
 
 # Interactive Data Visualization Frameworks
 There are various ways to create interactive visualizations. We present two very popular packages, that adapt ggplots syntax, making them very comfortable to use. 
@@ -130,3 +133,55 @@ fig
 #                       high = .fitted + 2*.se.fit),
 #                 linkedTo = "fit")
 ```
+
+
+## Data tables
+
+Exercise 1. 
+
+1. delete or comment out the 4th line of this code chunk.
+What difference does this make in terms of computation and usability? 
+What's going on here?
+
+```{r}
+library(DT)
+data(diamonds, package = "ggplot2") # load data 
+
+data <- diamonds[sample(nrow(diamonds), 300),1:5] #create a subset of the dataset
+
+datatable(data, filter = 'top',  
+          options = list(   searchHighlight = TRUE, pageLength = 15 ))
+
+```
+## Slides 
+
+Using ioslides we can also implement interactive plots in our presentations! 
+
+```{r eval = FALSE}
+---
+title: Do Natural Disasters Stimulate Environmental Attitudes? Evidence from a Natural
+  Experiment.
+author: "Hamid Bulut"
+date: "27/4/2022"
+output:
+  ioslides_presentation:
+    css: www/styles.css
+    widescreen: yes
+    smaller: yes
+    highlight: monochrome
+  slidy_presentation:
+    highlight: monochrome
+  beamer_presentation:
+    highlight: monochrome
+subtitle: A Regression Discontinuity Design Analysis
+editor_options:
+  markdown:
+    wrap: 72
+---
+```
+
+
+```{r, out.width=1100, out.extra='style="border: 1px solid #464646;" allowfullscreen="" allow="autoplay"'}
+knitr::include_url("index_files/slides/slides1.html", height = "800px")
+```
+

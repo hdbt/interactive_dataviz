@@ -19,7 +19,6 @@ output:
 editor_options:
   markdown:
     wrap: 140
-  runtime: shiny
 ---
 
 # Exercises Session I
@@ -27,7 +26,7 @@ editor_options:
 ## charts {.tabset .tabset-pills}
 ### plotly
 
-Ther are two ways to make use of plotlys framework.  
+There are two ways to make use of plotlys framework.  
 
 [ggplotly](https://plotly.com/ggplot2/) & [plotly for R](https://plotly.com/r/)
 ggplotly turns your ggplot graphs with the function *ggplotly()* into an interactive graph. 
@@ -132,19 +131,138 @@ fig
 #                 linkedTo = "fit")
 ```
 
-## Exercise 1
+## Exercise 1. Layout
 
 Create 
 
 ```{r}
 
+
+
+library(shiny)
+
+# Define UI ----
+ui <- fluidPage(
+  titlePanel("My Shiny App"),
+  sidebarLayout(
+    sidebarPanel(
+      h2("Installation"),
+      p("Shiny is available on CRAN, so you can install it in the usual way from your R console:"),
+      code('install.packages("shiny")'),
+      br(),
+      br(),
+      br(),
+      br(),
+      img(src = "rstudio.png", height = 70, width = 200),
+      br(),
+      "Shiny is a product of ", 
+      span("RStudio", style = "color:blue")
+    ),
+    mainPanel(
+      h1("Introducing Shiny"),
+      p("Shiny is a new package from RStudio that makes it ", 
+        em("incredibly easy "), 
+        "to build interactive web applications with R."),
+      br(),
+      p("For an introduction and live examples, visit the ",
+        a("Shiny homepage.", 
+          href = "http://shiny.rstudio.com")),
+      br(),
+      h2("Features"),
+      p("- Build useful web applications with only a few lines of code—no JavaScript required."),
+      p("- Shiny applications are automatically 'live' in the same way that ", 
+        strong("spreadsheets"),
+        " are live. Outputs change instantly as users modify inputs, without requiring a reload of the browser.")
+    )
+  )
+)
+
+# Define server logic ----
+server <- function(input, output) {
+  
+}
+
+# Run the app ----
+shinyApp(ui = ui, server = server)
+
+
+```
+
+## Exercise 2. Inputs
+
+
+```{r}
+
+ui <- fluidPage(
+  titlePanel("censusVis"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      helpText("Create demographic maps with 
+               information from the 2010 US Census."),
+      
+      selectInput("var", 
+                  label = "Choose a variable to display",
+                  choices = list("Percent White", 
+                                 "Percent Black",
+                                 "Percent Hispanic", 
+                                 "Percent Asian"),
+                  selected = "Percent White"),
+      
+      sliderInput("range", 
+                  label = "Range of interest:",
+                  min = 0, max = 100, value = c(0, 100))
+    ),
+    
+    mainPanel()
+  )
+)
+```
+
+
+## Exercise 3. Outputs and Reactives
+
+```{r}
 library(shiny)
 
 ui <- fluidPage(
-    "Hello"
+  titlePanel("censusVis"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      helpText("Create demographic maps with 
+               information from the 2010 US Census."),
+      
+      selectInput("var", 
+                  label = "Choose a variable to display",
+                  choices = c("Percent White", 
+                              "Percent Black",
+                              "Percent Hispanic", 
+                              "Percent Asian"),
+                  selected = "Percent White"),
+      
+      sliderInput("range", 
+                  label = "Range of interest:",
+                  min = 0, max = 100, value = c(0, 100))
+    ),
+    
+    mainPanel(
+      textOutput("selected_var"),
+      textOutput("min_max")
+    )
+  )
 )
 
-server <- function(input, output, session) {
+server <- function(input, output) {
+  
+  output$selected_var <- renderText({ 
+    paste("You have selected", input$var)
+  })
+  
+  output$min_max <- renderText({ 
+    paste("You have chosen a range that goes from",
+          input$range[1], "to", input$range[2])
+  })
   
 }
 
