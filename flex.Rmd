@@ -1,0 +1,53 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r message=FALSE, warning=FALSE}
+library(highcharter)
+library(broom)
+library(dplyr)
+data(diamonds, package = "ggplot2")
+
+data <- sample_n(diamonds, 300)
+
+modlss <- loess(price ~ carat, data = data)
+fit <- arrange(augment(modlss,se_fit = TRUE), carat)
+highchart() %>%
+  hc_add_series(data, type = "scatter",
+                hcaes(x = carat, y = price, size = depth, group = cut)) %>%
+  hc_add_series(fit, type = "line", hcaes(x = carat, y = .fitted),
+                name = "Fit", id = "fit") %>%
+  hc_add_series(fit, type = "arearange",
+                hcaes(x = carat, low = .fitted - 2*.se.fit,
+                      high = .fitted + 2*.se.fit),
+                linkedTo = "fit")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

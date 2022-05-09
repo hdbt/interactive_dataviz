@@ -5,9 +5,9 @@ account: hamid-bulut
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6047190
-bundleId: 5836325
+bundleId: 5887453
 url: https://hamid-bulut.shinyapps.io/interactive_dataviz/
-when: 1650928682.54771
-lastSyncTime: 1650928682.54771
+when: 1652112266.49035
+lastSyncTime: 1652112266.49035
 asMultiple: FALSE
 asStatic: FALSE

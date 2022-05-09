@@ -1,5 +1,5 @@
 ---
-title: "Interactive Data Vizualisations"
+title: "Interactive Data Visualizations"
 author: "Robin Samuel (Course Instructor), Hamid Bulut (Teaching Assistant)"
 date: "26/4/2022"
 output:
@@ -16,8 +16,6 @@ editor_options:
     wrap: 72
 #runtime: shiny
 ---
-
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -63,7 +61,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
     -   Further pointers
 
-## Course materials 
+## Course materials
 
 [Shiny tutorials by RStudio](https://shiny.rstudio.com/tutorial/) -
 Videos and written tutorials to basic functionalities of shiny
@@ -78,7 +76,8 @@ Shiny cheatsheet, available from
 <https://www.rstudio.com/resources/cheatsheets/> ![Shiny
 cheatsheet](slides-figure/cheatsheet.png){width="500"}
 
-[R Markdown: THe Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+[R Markdown: THe Definitive
+Guide](https://bookdown.org/yihui/rmarkdown/)
 
 ## My first steps in shiny I
 
@@ -242,22 +241,28 @@ library(shiny)
 
     -   Userinterface (UI) = The body of your app
     -   Server => The brain of your app
-    
+
 ## What happens when I go to visit a shiny app?
 
 ![](slides-figure/server_browser.png "An overview of basic controls supplied by shiny"){width="950"}
 Shiny is taking care of everything; especially the websockets.
 
-## Shiny Examples 
+## Shiny Examples
 
 <https://shiny.rstudio.com/gallery/>
 
--   [COVID-19 Tracker](https://shiny.rstudio.com/gallery/covid19-tracker.html)
--   [Create IOS & Android Apps](https://rinterface.github.io/shinyMobile/)
--   [Build Shiny with Shiny](https://shiny.rstudio.com/gallery/shiny-wysiwyg.html)
--   [Machine Learning with Shiny](https://shiny.rstudio.com/gallery/radiant.html)
--   [Official New Zealand Government Dashboard](https://statisticsnz.shinyapps.io/trade_dashboard/)
--   [A simple Game with Shiny](https://sparktuga.shinyapps.io/ShinyDecisions/)
+-   [COVID-19
+    Tracker](https://shiny.rstudio.com/gallery/covid19-tracker.html)
+-   [Create IOS & Android
+    Apps](https://rinterface.github.io/shinyMobile/)
+-   [Build Shiny with
+    Shiny](https://shiny.rstudio.com/gallery/shiny-wysiwyg.html)
+-   [Machine Learning with
+    Shiny](https://shiny.rstudio.com/gallery/radiant.html)
+-   [Official New Zealand Government
+    Dashboard](https://statisticsnz.shinyapps.io/trade_dashboard/)
+-   [A simple Game with
+    Shiny](https://sparktuga.shinyapps.io/ShinyDecisions/)
 
 ## Basic Structure
 
@@ -311,7 +316,7 @@ sidebar](slides-figure/sidebar.png){width="500"}
 
 ## Layout II
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, size= "10%"}
+```{r echo=TRUE, message=FALSE, warning=FALSE, size= "10%", eval= TRUE}
 library(shiny)
 library(bslib)
 
@@ -327,7 +332,7 @@ ui <- fluidPage( theme =  bs_theme(version = 4, bootswatch = "cosmo"),
 ui
 ```
 
-## input functions / control widgets
+## input functions & control widgets
 
 [Shiny](https://shiny.rstudio.com/gallery/widget-gallery.html)[widgets](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
 collect a value from your user. When a user changes the widget, the
@@ -338,37 +343,34 @@ value will change as well. You can find more information
 
 ## input function / control widgets III
 
-+---------------+---------------+---------------+---------------+
-| *function*    | **widget**    | *function*    | **widget**    |
-+===============+===============+===============+:==============+
-| `             | Action Button | `             | A field to    |
-| actionButton` |               | numericInput` | enter numbers |
-+---------------+---------------+---------------+---------------+
-| `checkboxGroup| A group of    | `             | A set of      |
-|Input`         | check boxes   | radioButtons` | radio buttons |
-+---------------+---------------+---------------+---------------+
-| `             | A single      | `selectInput` | A box with    |
-| checkboxInput`| check box     |               | choices to    |
-|               |               |               | select from   |
-+---------------+---------------+---------------+---------------+
-| `dateInput`   | A calendar to | `sliderInput` | A slider bar  |
-|               | aid date      |               |               |
-|               | selection     |               |               |
-+---------------+---------------+---------------+---------------+
-| `             | A pair of     | `             | A submit      |
-|dateRangeInput`| calendars for | submitButton` | button        |
-|               | selecting a   |               |               |
-|               | date range    |               |               |
-+---------------+---------------+---------------+---------------+
-| `fileInput`   | A file upload | `textInput`   | A field to    |
-|               | control       |               | enter text    |
-|               | wizard        |               |               |
-+---------------+---------------+---------------+---------------+
-| `helpText`    | Help text     |               |               |
-|               | that can be   |               |               |
-|               | added to an   |               |               |
-|               | input form    |               |               |
-+---------------+---------------+---------------+---------------+
++-------------+-----------------------+-------------+----------------+
+| *function*  | **widget**            | *function*  | **widget**     |
++=============+=======================+=============+:===============+
+| `ac         | Action Button         | `nu         | A field to     |
+| tionButton` |                       | mericInput` | enter numbers  |
++-------------+-----------------------+-------------+----------------+
+| `           | A group of check      | `ra         | A set of radio |
+| checkbox G  | boxes                 | dioButtons` | buttons        |
+| roup Input` |                       |             |                |
++-------------+-----------------------+-------------+----------------+
+| `che        | A single check box    | `s          | A box with     |
+| ckboxInput` |                       | electInput` | choices to     |
+|             |                       |             | select from    |
++-------------+-----------------------+-------------+----------------+
+| `dateInput` | A calendar to aid     | `s          | A slider bar   |
+|             | date selection        | liderInput` |                |
++-------------+-----------------------+-------------+----------------+
+| `date       | A pair of calendars   | `su         | A submit       |
+| RangeInput` | for selecting a date  | bmitButton` | button         |
+|             | range                 |             |                |
++-------------+-----------------------+-------------+----------------+
+| `fileInput` | A file upload control | `textInput` | A field to     |
+|             | wizard                |             | enter text     |
++-------------+-----------------------+-------------+----------------+
+| `helpText`  | Help text that can be |             |                |
+|             | added to an input     |             |                |
+|             | form                  |             |                |
++-------------+-----------------------+-------------+----------------+
 
 : Basic inputfunctions supplied by shiny
 
@@ -387,8 +389,6 @@ server <- function(input, output, session) {
 }
 ```
 
-
-
 ## Reactives
 
 Reactive functions are something between variables (cold/static) and a
@@ -397,7 +397,8 @@ function (hot/dynamic) => a function with memory.
 First time called: run like a function Second time called: read from
 cache (if nothing changed)
 
-Reactives re-execute automatically, when dependencies change input --> output.
+Reactives re-execute automatically, when dependencies change input -->
+output.
 
 Example syntax:
 
@@ -417,11 +418,10 @@ dataset()  # notice, that dataset is now a function
 
 ```
 
-Reactives deal with the communication
-between the UI and the Server. Web developers call this concept
-"callback". Usually a tedious experience, but shiny manages this almost
-automatically for you. This is the major USP of shiny (taking care of
-the dependencies).
+Reactives deal with the communication between the UI and the Server. Web
+developers call this concept "callback". Usually a tedious experience,
+but shiny manages this almost automatically for you. This is the major
+USP of shiny (taking care of the dependencies).
 
 ## Outputs
 
@@ -430,33 +430,20 @@ output](https://shiny.rstudio.com/tutorial/written-tutorial/lesson4/)
 requires two components. First an *output function* placed in the UI,
 and second a *render function* written in the server function.
 
-+--------------------+----------------------+----------------------+
-| **Output function  | **Render function    | **Output**           |
-| (UI)**             | (Server)**           |                      |
-+--------------------+----------------------+----------------------+
-| `dataTableOutput`  | `renderDataTable`    | DataTable            |
-+--------------------+----------------------+----------------------+
-| `htmlOutput`       | `renderImage`        | images (saved as a   |
-|                    |                      | link to a source     |
-|                    |                      | file)                |
-+--------------------+----------------------+----------------------+
-| `imageOutput`      | `renderPlot`         | plots                |
-+--------------------+----------------------+----------------------+
-| `plotOutput`       | `renderPrint`        | any printed output   |
-+--------------------+----------------------+----------------------+
-| `tableOutput`      | `renderTable`        | data frame, matrix,  |
-|                    |                      | other table like     |
-|                    |                      | structures           |
-+--------------------+----------------------+----------------------+
-| `textOutput`       | `renderText`         | character strings    |
-+--------------------+----------------------+----------------------+
-| `uiOutput`         | `renderUI`           | a Shiny tag object   |
-|                    |                      | or HTML              |
-+--------------------+----------------------+----------------------+
+|                          |                              |                                                 |
+|--------------------------|------------------------------|-------------------------------------------------|
+| **Output function (UI)** | **Render function (Server)** | **Output**                                      |
+| `dataTableOutput`        | `renderDataTable`            | DataTable                                       |
+| `htmlOutput`             | `renderImage`                | images (saved as a link to a source file)       |
+| `imageOutput`            | `renderPlot`                 | plots                                           |
+| `plotOutput`             | `renderPrint`                | any printed output                              |
+| `tableOutput`            | `renderTable`                | data frame, matrix, other table like structures |
+| `textOutput`             | `renderText`                 | character strings                               |
+| `uiOutput`               | `renderUI`                   | a Shiny tag object or HTML                      |
 
 ## Output example
 
-```{r text, eval = FALSE, echo=TRUE}
+```{r text, eval = FALSE, echo=TRUE, tidy=TRUE}
 library(shiny)
 ui <- fluidPage(
   titlePanel("Hello I am the geyser app!"),
@@ -485,19 +472,6 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server, options = list(display.mode = "showcase"))
 ```
 
-## Reactives observers end events
-
-An observer is like a reactive expression in that it can read reactive values and call reactive expressions, and will automatically re-execute when those dependencies change.   
-
-observeEvent is the same as observe({ x; isolate(y)})
-eventReactive is the same as reactive({ x ; isolate (y)})
-
-reactives are for returning a result, e.g. `df <-  reactive( df[input$var] )`
-observe is for side effects. In other words: Waiting for a trigger event to download, save something, validate and so on...
-
-Sometimes it’s useful for an observer/endpoint to access a reactive value or expression, but not to take a dependency on it. For example, if the observer performs a long calculation or downloads large data set, you might want it to execute only when a button is clicked.
--   isolate... isolates reactives from other reactives (like inputs, outputs, ...)  `isolate( reactive( df[input$var] ) )`  
-
 ## What is Bootstrap?
 
 Bootstrap is a collection of HTML Conventions, CSS Styles, & JavaScript
@@ -523,7 +497,7 @@ Snippets provided in a convenient form
 ```{r bs, eval= FALSE, echo=TRUE}
     library(bslib)
     bs_theme_preview( bs_theme())  # check the console for the generated code
-    ```
+```
 
 <!-- -->
 
@@ -543,67 +517,162 @@ Snippets provided in a convenient form
 
 3.  Publish!
 
-You can find [here](https://shiny.rstudio.com/articles/shinyapps.html) further information on how to deploy your app and how shinyapps.io works in general.
-
-
+You can find [here](https://shiny.rstudio.com/articles/shinyapps.html)
+further information on how to deploy your app and how shinyapps.io works
+in general.
 
 # Second Session
 
-## tags
+## Course Plan for today
 
-```{r lol}
+-   Recap
+
+-   What did we cover in the last session?
+
+    -   Write HTML, w/o writing HTML (UI)
+
+    -   write Server Components with Shiny's reactivity (Server)
+
+    -   Examples of shiny
+
+-   Presentations
+
+-   Input R Markdown
+
+-   From Markdown to interactive Slides and Documents
+
+-   Exercises
+
+-   R Markdown, Slides, highcharts, plotly
+
+-   Further pointers
+
+-   Ressources and other use-cases for Shiny
+
+## Recap: UI
+
+```{r echo=  TRUE, tidy = TRUE}
 library(shiny)
 
-body <-  HTML("body {
-  background-color: lightgrey;
-}" )
+ui <- 
+  fluidPage( 
+    titlePanel("This is the title panel"),
 
-
-ui <- fluidPage( tags$style(body),
-  titlePanel("This is the title panel"),
-
-  sidebarLayout(
-    sidebarPanel( "Ths is the sidebar panel"),
-    mainPanel("And this is the main panel...")
+    sidebarLayout(
+      sidebarPanel( "Ths is the sidebar panel"),
+      mainPanel("And this is the main panel...")
+    )
   )
-)
 
 ui
 ```
 
-## Interactive Data Visualization
+## Recap: UI & Server
+
+![](slides-figure/ui_server_ids.png){width="900"}
+
+## Recap: Reactivity
+
+![](slides-figure/reactivity.png){width="900"}
+
+
+## Reactives observers and events 
+
+An observer is like a reactive expression in that it can read reactive
+values and call reactive expressions, and will automatically re-execute
+when those dependencies change.
+E.g. `observeEvent( input$action, print(input$name))`
+
+
+* reactives are for returning a result, e.g.
+`df <-  reactive( df[input$var] )` 
+* observe is for side effects. In other words: Waiting for a trigger event to download, save something, validate, update and so on...
+
+
+
+## Isolate Reactive expressions
+
+Sometimes it's useful for an observer/endpoint to access a reactive
+value or expression, but not to take a dependency on it. For example, if
+the observer performs a long calculation or downloads large data set,
+you might want it to execute only when a button is clicked. 
+
+* `isolate()`decouples the reactive dependency taken on other reactives (like inputs, outputs, ...)
+`isolate( df() )` but still reads the value of the input.
+* `observeEvent(input$x, input$y)` is the same as `observe( input$x isolate(input$y))` 
+* `eventReactive(input$x, input$y)` is the same as `reactive( input$x isolate (input$y))`
+
+
+## Interactive Data Visualization frameworks and R Markdown
 
 -   Most popular and best documented frameworks are Plotly, Highcharts,
-    leaflet (and d3)
+    Leaflet (and D3)
 
     -   all of them are based in JavaScript (JS).
     -   luckily you don't need to know JS, as customizing is mostly done
         in wrappers for various languages (R, Python, ...)
     -   interactivity can only be achieved, where you can run JS (web
-        browser) . That's why HTML documents is the gold standard
+        browser) . That's why HTML documents are the gold standard
 
--   There are a few ways to share your work - Save your Work as a HTML
-    document (share the doc or embed it in your website). - write in a
-    RMD document and then render to ioslides or slidy (creates also an
-    HTML document; share or embed) - write a shiny app (deploy to
-    shinyclouds or own server)
+-   There are a few ways to share your work
+
+    -   Save your Work as a HTML document (share the doc or embed it in
+        your website).
+
+    -   write in a RMD document and then render to
+        [ioslides](https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html)
+        or
+        [slidy](https://bookdown.org/yihui/rmarkdown/slidy-presentation.html)(creates
+        also an HTML document; share or embed)
+
+    -   write a shiny app (deploy to [shiny
+        clouds](https://www.shinyapps.io/) or own server)
 
 -   frequently used frameworks:
 
--   Plotly is the most popular and easiest to work with.
+    -   [Plotly](https://plotly.com/r/) is the most popular and easiest
+        to work with.
 
--   Highcharts is less known, relatively customizable and free to use in
-    non commercial settings
+    -   [Highcharts](https://jkunst.com/highcharter/) is less known,
+        relatively customizable and free to use in non commercial
+        settings
 
--   leaflet is great for interactive maps
+    -   [Leaflet](https://rstudio.github.io/leaflet/) is great for
+        interactive maps
 
-## Reactive expressions
+## R Markdown
 
-eventReactive minimize dependencies Render --> for looks/output observe
---> for sideffects( downloadhandler, read data from disc, ....)
+Markdown is a lightweight markup language for creating formatted text
+using a plain-text editor.
 
-observeEvent = observe({x, isolate(y)}) decouples from listening to
-action
+-   R Markdown = Markdown + support for R Code execution
+
+-   **Goals**: Easy to read & write and standardized syntax for easy
+    conversions to HTML or similar outputs.
+
+[![](slides-figure/rmarkdown_cs.png){width="900"}](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+## YAML
+
+![YAML Head (Metadata / Settings for rendering R Markdown into different
+Outputs)](slides-figure/yaml_flex.PNG)
+
+## RMarkdown Outputs
+
+![Behind the scenes of knitting your
+docoment.](slides-figure/workflow.png){width="900"}
+
+knitr -> evaluates the r code (calculations, plots, tables, ...) and
+creates a Markdown document
+
+pandoc --> takes the Markdown document and creates the desired output.
+PDF are rendered via LaTeX.
+
+## Create an R Markdown Document with RStudio
+
+![](slides-figure/rmd_gui1.PNG){width="387"}
+
+![](slides-figure/rmd_gui2.PNG){width="507"}
 
 ## Dashboards
 
@@ -628,33 +697,25 @@ action
     ```{r echo=TRUE, eval= FALSE}
     -------------------------------------------
     title: "Interactive Data Vizualisations"
+    output: 
+      flexdashboard::flex_dashboard
     runtime: shiny
     -------------------------------------------
     ```
-
-
-## Deploying your App to the Web
-
-1.  Go to <https://www.shinyapps.io> and create an account or log in
-    with Google/GitHub
-
-2.  Follow the instructions for connecting your machine to the server.
-
-3.  Publish!
 
 ## Pointers I
 
 [ShinyWidgets](http://shinyapps.dreamrs.fr/shinyWidgets/)
 
-## Pointers II
+## Pointers II -- Gadgets and HTML,CSS & JavaScript
 
 -   Once you are familiar with Shiny it's easy to reuse your know how to
     create interactive helper for R
     <https://shiny.rstudio.com/articles/gadgets.html>
 
 -   [Harvard Lecture](https://www.youtube.com/watch?v=zFZrkCIc2Oc) on
-    YouTube, check out the first lecture for a good introduction to
-    those topics.
+    YouTube, check out the first lecture for a good introduction to HTML
+    and CSS
 
 -   Some mobile apps to learn HTML, CSS, JavaScript
 
@@ -662,13 +723,13 @@ action
     -   <https://play.google.com/store/apps/details?id=com.codeliber.css>
     -   <https://play.google.com/store/apps/details?id=com.codeliber.js>
 
-## Pointers III
+## Pointers III -- Books and Alternatives to Shiny
 
 [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
-[Book Plotly for R](https://plotly-r.com/preface.html) 
+[Book Plotly for R](https://plotly-r.com/preface.html)
 
-[html widgets gallery](http://gallery.htmlwidgets.org/)
-### other Interactive Data Visualization Frameworks
+[html widgets gallery](http://gallery.htmlwidgets.org/) ##\# other
+Interactive Data Visualization Frameworks
 
 -   [Dash R, a plotly based App with inputs and output (similar to
     shiny, but less powerful)](https://dash.gallery/Portal/)
@@ -676,4 +737,5 @@ action
     applications.](https://voila-gallery.org/)
 -   [streamlit](https://streamlit.io/)
 -   [D3 for R, extremely customizable data visualizations, but also very
-    timeconsuming](https://www.rstudio.com/blog/r2d3-r-interface-to-d3-visualizations/)
+    time
+    consuming](https://www.rstudio.com/blog/r2d3-r-interface-to-d3-visualizations/)

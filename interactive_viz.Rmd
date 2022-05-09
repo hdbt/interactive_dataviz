@@ -26,7 +26,7 @@ editor_options:
 # Interactive Data Visualization Frameworks
 There are various ways to create interactive visualizations. We present two very popular packages, that adapt ggplots syntax, making them very comfortable to use. 
 
-## charts {.tabset .tabset-pills}
+## Plots {.tabset .tabset-pills}
 ### plotly
 
 Ther are two ways to make use of plotlys framework.  
@@ -54,7 +54,8 @@ p <- ggplot(NULL, mapping = aes(x = carat, y = price )) +
   
 
 
-ggplotly(p)
+ggplotly(p) %>%
+  layout(legend = list(x = 0.1, y = 0.9))
 ```
 
  
@@ -76,14 +77,15 @@ modlss <- loess(price ~ carat, data = data)
 fit <- arrange(augment(modlss,se_fit = TRUE), carat)
 
 highchart() %>%
+  hc_plotOptions(bubble = list(minSize = 1, maxSize = 20)) %>% hc_add_series(fit, type = "arearange",
+                hcaes(x = carat, low = .fitted - 2*.se.fit,
+                      high = .fitted + 2*.se.fit),
+                linkedTo = "fit") %>%
   hc_add_series(data, type = "scatter",
                 hcaes(x = carat, y = price, size = depth, group = cut)) %>%
   hc_add_series(fit, type = "line", hcaes(x = carat, y = .fitted),
-                name = "Fit", id = "fit") %>%
-  hc_add_series(fit, type = "arearange",
-                hcaes(x = carat, low = .fitted - 2*.se.fit,
-                      high = .fitted + 2*.se.fit),
-                linkedTo = "fit")
+                name = "Fit", id = "fit")
+ 
 ```
 
 ### plot_ly 
@@ -92,10 +94,11 @@ The main difference in ggplot2's geom_ functions and hc_add_series is that we ne
 
 An accurate example is given below using the diamond dataset in the ggplot2 package.
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE, out.width="100%", fig.align='center'}
 library(plotly)
 library(broom)
 library(dplyr)
+library(shiny)
 data(diamonds, package = "ggplot2")
 
 data <- sample_n(diamonds, 300)
@@ -104,7 +107,8 @@ modlss <- loess(price ~ carat, data = data)
 fit <- augment(modlss, se_fit = TRUE)
 
 
-fig <- plot_ly(data = data, x = ~carat) %>% 
+plot_ly(data = data, x = ~carat, width = 700,
+    height = 500) %>% 
   add_markers(y = ~price, 
               color = ~cut, 
               size = ~carat, 
@@ -118,30 +122,28 @@ fig <- plot_ly(data = data, x = ~carat) %>%
               line = list(color = "rgba(2, 162, 182, 0.05)"),
               fillcolor = "rgba(2, 162, 182, 0.2)",
               name = "Standarderror"
-              )
+              ) %>%
+  layout(legend = list(x = 0.1, y = 0.9))
 
-
-fig
-
-# highchart() %>%
-#   hc_add_series(data, type = "scatter",
-#                 hcaes(x = carat, y = price, size = depth, group = cut)) %>%
-#   hc_add_series(fit, type = "line", hcaes(x = carat, y = .fitted),
-#                 name = "Fit", id = "fit") %>%
-#   hc_add_series(fit, type = "arearange",
-#                 hcaes(x = carat, low = .fitted - 2*.se.fit,
-#                       high = .fitted + 2*.se.fit),
-#                 linkedTo = "fit")
 ```
+
+## Maps
+
+The [leaflet](https://rstudio.github.io/leaflet/) package is a very popular framework to create interactive maps.  
+
+```{r}
+library(leaflet)
+leaflet() %>%
+  setView(lng= 5.94852, lat= 49.50437, zoom = 16) %>% 
+  addTiles() %>%
+  addMarkers(lng= 5.94852, lat= 49.50437,  popup = "Interactive Data Viz Course") 
+```
+
 
 
 ## Data tables
 
-Exercise 1. 
 
-1. delete or comment out the 4th line of this code chunk.
-What difference does this make in terms of computation and usability? 
-What's going on here?
 
 ```{r}
 library(DT)
@@ -181,7 +183,19 @@ editor_options:
 ```
 
 
-```{r, out.width=1100, out.extra='style="border: 1px solid #464646;" allowfullscreen="" allow="autoplay"'}
-knitr::include_url("index_files/slides/slides1.html", height = "800px")
-```
+
+
+# Publish R Markdown documents on RPubs
+
+https://rpubs.com/
+
+# R Markdown Syntax
+
+https://bookdown.org/yihui/rmarkdown/markdown-syntax.html
+
+
+# Shiny
+
+https://rpubs.com/odenipinedo/building-web-applications-with-Shiny-in-R
+
 

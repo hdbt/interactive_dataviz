@@ -27,14 +27,15 @@ library(bslib)
   .nav-tabs-custom > .nav-tabs > li.active {border-top-color: blue;}
   .shiny-frame {height: 1000px !important;}
   #section-test {height: 5000px !important;}
-  #section-exercises {height: 1000px !important;}
+  #section-exercises {height: 1100px !important;}
   #section-exercise-0-start-10 {height: 5000px !important;}
+  #section-exercise-11-observers-update-input-20-min {height: 5000px !important;}
   <!-- Commented out for redudancy
   .nav-tabs-custom > .iframe {height: 1000px !important; }
   .iframe {height: 1000px !important;}
   -->
   .nav-tabs-custom > .nav-tabs > li.active > a {color: blue;} 
-  .nav-tabs-custom > .nav-tabs > li > a {font-size: 10px !important}
+  .nav-tabs-custom > .nav-tabs > li > a {font-size: 13px !important}
 </style>
 
 <script>
@@ -99,10 +100,11 @@ Exercises
 
 Row {.tabset .tabset-fade}
 -------------------------------------------
- <button onclick="switchlol();" id="1" value="ON" class="btn btn-primary btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off">Hide Code</button> 
 
 
 ### Exercise 0 Start 10
+
+ <button onclick="switchlol();" id="1" value="ON" class="btn btn-primary btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off">Hide Code</button> 
 
 1.    `install.packages("shiny")`
 2.    Create an `app.R` file in RStudio. 
@@ -177,10 +179,15 @@ shinyApp(ui = ui, server = server, options = list(display.mode = "showcase"))
 0. Create a RMarkdown document and use chunks to execute the code. 
 
 1. Create a basic layout using the following layout functions to create a basic app layout and fill it with some text:
+
 `fluidpage()`
+
 `titlePanel()`
+
 `sidebarLayout()`
+
 `sidebarPanel()`
+
 `mainPanel()`
 
 2. Use at least three different HTML tag functions of your choice e.g.`tags$h1` in your layout.
@@ -191,11 +198,17 @@ Tip 1. you may use `bs_theme(bootswatch = "quartz")` as a theme.
 
 ### 
 
-### Exercise 3. Inputs (10 min.)
-```{r figurename, echo=FALSE, fig.cap="my caption", out.width = '10%', eval = TRUE}
+### Exercise 3. Inputs. Recreate the UI.  (10 min.)
+
+Recreate the following UI. 
+
+
+```{r figurename, echo=FALSE, eval = TRUE}
 knitr::include_graphics("slides/slides-figure/ui.png")
 ```
-Recreate the following UI. 
+
+
+
 
 
 ### Exercise 4.0 Your first Shiny App
@@ -217,8 +230,11 @@ output$histogram <- renderPlot({
 
 
 ### Exercise 4.1  Why will this code fail?  2(min)
+
 Why will this code fail? 
+
 Why are `range` and `var` bad names?
+
 ```{r, eval=FALSE, echo = TRUE}
 Because of namespace conflicts of range()
 var <- reactive(df[[input$var]])
@@ -249,6 +265,7 @@ shinyApp(ui, server)
 ### Exercise 4.3  Outputs and Reactives (5 min)
 
 Fix the error in this app. Read the error message carefully to see what's missing in the server function.
+
 Tip 1: Remember, that reactive objects are called like functions with `()`. See slide 19 for an example.
 
 ```{r message=FALSE, warning=FALSE, eval=FALSE, echo=TRUE}
@@ -269,6 +286,7 @@ shinyApp(ui, server)
 ```
 
 ### Exercise 4.4 Fix the bugs  (5 min.)
+
 There are two bugs in the code provided below. Can you find and fix them?
 
 ```{r, echo=TRUE, eval = FALSE, echo = TRUE}
@@ -303,7 +321,9 @@ shinyApp(ui, server)
 1. Use the histogram app from exercise 0 to include an input selector in the ui, which enables the user to choose any variable in a data set to plot a histogram. 
 
 Tip 1. Use `data(diamonds, package = "ggplot2")` to load the diamonds data set.
+
 Tip 2. Use `names(diamonds)` to get the names of the columns for the input choices.
+
 Tip 3. use `[[var]]` to subset the data frame. (equivalent to `$var`)
 
 
@@ -318,6 +338,7 @@ Based on the app in Exercise 5 now include two variables to plot a scatter plot.
 Based on the app from Exercise 0 or 5 create an app that plots ggplot(diamonds, aes(carat)) but allows the user to choose which geom to use: geom_histogram(), geom_freqpoly(), or geom_density().  
 
 Tip 1. ggplot uses [non-standard evaluation](https://mastering-shiny.org/action-tidy.html?q=ggplot#data-masking). Use `diamonds, aes(x = .data[[input$col]])`instead of `diamonds[[input$col]]` for ggplot functions. 
+
 Tip 2. geom_histogram() and geom_freqpoly() have a binwidth argument; geom_density() has a bw argument.
 
 ### Exercise 8. download (5 min.)
@@ -353,4 +374,154 @@ You can find [here](https://shiny.rstudio.com/articles/shinyapps.html) further i
 ```{r}
 knitr::include_graphics("slides/slides-figure/deploy.png")
 ```
+
+### Exercise 11. observers update input 20 min.
+
+ <button onclick="switchlol();" id="1" value="ON" class="btn btn-primary btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off">Hide Code</button> 
+
+
+1. The lable for the selection for bin width slider says "Number of bins. This is actually only true for the Histogram and Frequency plot. The Density curve uses the parameter "band with". Use an observer to update the label of the slider accordingly. I.e. it should display "Bandwith", when Density is selected and "Number of bins" if any other Plot type is selected.
+
+* Tip 1. Think about the type of observer  you'll need. [observe()](https://shiny.rstudio.com/reference/shiny/0.14/observe.html) or [observeEvent()](https://shiny.rstudio.com/reference/shiny/1.0.3/observeEvent.html) 
+* Tip 2. Use `label = ifelse(input$geom == "dens", "Bandwidth", "Number of Bins")` as an argument for your updated slider.
+* Tip 3. Use an [update function](https://shiny.rstudio.com/reference/shiny/0.14/updateSelectInput.html) in your server function to update any parameters of control widgets.
+
+2. As of now the plot reacts to every change you make (variables, plot type and bins / bandwith). Create a button, so any changes in the parameters are only applied after you trigger the button. 
+
+* Tip 1. There are at least three solutions to this. `isolate()` is very helpful in this case. 
+
+```{r eval = TRUE, echo = TRUE}
+
+library(shiny)
+library(ggplot2)
+library(shinyWidgets)
+
+data(diamonds, package = "ggplot2")
+selection <-  names(diamonds)[vapply(diamonds, is.numeric, logical(1))]
+
+ui <- fluidPage(
+tags$style("@import url(https://use.fontawesome.com/releases/v6.1.1/css/all.css);")  ,
+
+# Application title
+    titlePanel("Diamonds Dataset"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+          selectInput("col", "Product", choices = selection),
+          selectInput("geom", "Plottype", choices = list(Histogram = "hist", Frequency = "freq", Density = "dens")),
+          sliderInput("bins",
+                      "Number of bins:",
+                      min = 0.1,
+                      max = 10,
+                      value = 1, 
+                      step = .01),
+          prettyToggle(
+           inputId = "Id031",
+           label_on = "Flipped!", 
+           label_off = "Not flipped!",
+           outline = TRUE,
+           plain = TRUE,
+           icon_on = icon("chart-bar", lib = "font-awesome"), 
+            icon_off = icon("chart-column", lib = "font-awesome"))
+        ),
+        
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+
+)
+
+server <- function(input, output, session) {
+  
+  observeEvent(input$Id031, {
+    updateSelectInput(session, inputId = "col",label = "Test" )
+  }, ignoreInit = TRUE
+  )
+  
+
+
+    output$distPlot <- renderPlot({
+      p <-  ggplot(diamonds, aes(x = .data[[input$col]]))
+      
+      if (input$Id031) {
+      p <-  p + coord_flip()
+      }
+      
+      if (input$geom == "hist") {
+        
+      p + geom_histogram(binwidth =  input$bins) 
+        
+      }
+      else if (input$geom == "freq") {
+      p + geom_freqpoly(binwidth =  input$bins)
+      }
+      else {
+      p + geom_density(bw =  input$bins)
+ 
+      }
+
+      
+    })
+
+  
+  
+}
+
+shinyApp(ui, server)
+
+```
+
+
+###  Exercise 12. Output is Input (10 min.)
+
+As you can see you can use your output as a source of input!
+
+Replace the rendered table by another output of your choice (histograms, boxplots, density curves,... ).
+
+Tip. Remember, that [`brushedPoints()`](https://rdrr.io/cran/shiny/man/brushedPoints.html) selects rows across columns. Because of this determine variable of interest in your code or make it interactive with an input selector in your ui. 
+
+```{r echo = TRUE}
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  plotOutput("plot", brush = "plot_brush"),
+  tableOutput("data")
+)
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    ggplot(mtcars, aes(wt, mpg)) + geom_point()
+  }, res = 96)
+  
+  output$data <- renderTable({
+    brushedPoints(mtcars, input$plot_brush)
+  })
+}
+shinyApp(ui, server)
+```
+
+
+###  Exercise 13.  (20 min.)
+
+
+Go to the section "Interactive Data Visualization" and copy&paste one of the interactive plots into your RMarkdown document. 
+
+1. Create an rmarkdown document, format it with some basic syntax. 
+2. Render a html doc with the interactive plot. 
+3. Render a ioslide presentation using the same interactive graphs.
+4. Install [flexdashboard](https://pkgs.rstudio.com/flexdashboard/) with `install.packages("flexdashboard")` and render a dashboard with an interactive plot of your choice. You may find an RMarkdown document template for your dashboard in RStudio with `New File --> R Markdown --> From Template --> Flex Dashboard`
+
+
+
+### Exercise 14. Data tables (5 min.)
+
+Go to the section "Interactive Data Visualization" and copy & paste the code into your R Markdown document.
+
+1. delete or comment out the 4th line of this code chunk.
+What difference does this make in terms of computation and usability? 
+What's going on here?
 
