@@ -157,7 +157,7 @@ datatable(data, filter = 'top',
 ```
 ## Slides 
 
-Using ioslides we can also implement interactive plots in our presentations! 
+Using [ioslides](https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html) we can also implement interactive plots in our presentations! 
 
 ```{r eval = FALSE}
 ---

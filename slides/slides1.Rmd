@@ -343,34 +343,36 @@ value will change as well. You can find more information
 
 ## input function / control widgets III
 
-+-------------+-----------------------+-------------+----------------+
-| *function*  | **widget**            | *function*  | **widget**     |
-+=============+=======================+=============+:===============+
-| `ac         | Action Button         | `nu         | A field to     |
-| tionButton` |                       | mericInput` | enter numbers  |
-+-------------+-----------------------+-------------+----------------+
-| `           | A group of check      | `ra         | A set of radio |
-| checkbox G  | boxes                 | dioButtons` | buttons        |
-| roup Input` |                       |             |                |
-+-------------+-----------------------+-------------+----------------+
-| `che        | A single check box    | `s          | A box with     |
-| ckboxInput` |                       | electInput` | choices to     |
-|             |                       |             | select from    |
-+-------------+-----------------------+-------------+----------------+
-| `dateInput` | A calendar to aid     | `s          | A slider bar   |
-|             | date selection        | liderInput` |                |
-+-------------+-----------------------+-------------+----------------+
-| `date       | A pair of calendars   | `su         | A submit       |
-| RangeInput` | for selecting a date  | bmitButton` | button         |
-|             | range                 |             |                |
-+-------------+-----------------------+-------------+----------------+
-| `fileInput` | A file upload control | `textInput` | A field to     |
-|             | wizard                |             | enter text     |
-+-------------+-----------------------+-------------+----------------+
-| `helpText`  | Help text that can be |             |                |
-|             | added to an input     |             |                |
-|             | form                  |             |                |
-+-------------+-----------------------+-------------+----------------+
++--------------+--------------------+--------------+--------------+
+| *function*   | **widget**         | *function*   | **widget**   |
++==============+====================+==============+:=============+
+| `ac          | Action Button      | `nu          | A field to   |
+|  tionButton` |                    |  mericInput` | enter        |
+|              |                    |              | numbers      |
++--------------+--------------------+--------------+--------------+
+| `checkbox G  | A group of check   | `ra          | A set of     |
+|  roup Input` | boxes              |  dioButtons` | radio        |
+|              |                    |              | buttons      |
++--------------+--------------------+--------------+--------------+
+| `che         | A single check box | `s           | A box with   |
+|  ckboxInput` |                    |  electInput` | choices to   |
+|              |                    |              | select from  |
++--------------+--------------------+--------------+--------------+
+| `dateInput`  | A calendar to aid  | `s           | A slider bar |
+|              | date selection     |  liderInput` |              |
++--------------+--------------------+--------------+--------------+
+| `date        | A pair of          | `su          | A submit     |
+|  RangeInput` | calendars for      |  bmitButton` | button       |
+|              | selecting a date   |              |              |
+|              | range              |              |              |
++--------------+--------------------+--------------+--------------+
+| `fileInput`  | A file upload      | `textInput`  | A field to   |
+|              | control wizard     |              | enter text   |
++--------------+--------------------+--------------+--------------+
+| `helpText`   | Help text that can |              |              |
+|              | be added to an     |              |              |
+|              | input form         |              |              |
++--------------+--------------------+--------------+--------------+
 
 : Basic inputfunctions supplied by shiny
 
@@ -525,29 +527,25 @@ in general.
 
 ## Course Plan for today
 
--   Recap
-
--   What did we cover in the last session?
+-   Recap: What did we cover in the last session?
 
     -   Write HTML, w/o writing HTML (UI)
 
     -   write Server Components with Shiny's reactivity (Server)
 
-    -   Examples of shiny
+-   Input: Observers, Event and isolate
+
+    -   Exercises
 
 -   Presentations
 
--   Input R Markdown
+-   Input: From Markdown to interactive Slides and Documents
 
--   From Markdown to interactive Slides and Documents
-
--   Exercises
-
--   R Markdown, Slides, highcharts, plotly
+    -   Exercises: R Markdown, Slides, highcharts, plotly
 
 -   Further pointers
 
--   Ressources and other use-cases for Shiny
+    -   Ressources and other use-cases for Shiny
 
 ## Recap: UI
 
@@ -575,33 +573,32 @@ ui
 
 ![](slides-figure/reactivity.png){width="900"}
 
-
-## Reactives observers and events 
+## Reactives observers and events
 
 An observer is like a reactive expression in that it can read reactive
 values and call reactive expressions, and will automatically re-execute
 when those dependencies change.
-E.g. `observeEvent( input$action, print(input$name))`
 
-
-* reactives are for returning a result, e.g.
-`df <-  reactive( df[input$var] )` 
-* observe is for side effects. In other words: Waiting for a trigger event to download, save something, validate, update and so on...
-
-
+-   reactives are for returning a result, e.g.
+    `df <-  reactive( df[input$var] )`
+-   observe is for side effects. In other words: Waiting for a trigger
+    event to download, save something, validate, update and so on...
+    E.g. `observe( input$action  print(input$name))`
 
 ## Isolate Reactive expressions
 
 Sometimes it's useful for an observer/endpoint to access a reactive
 value or expression, but not to take a dependency on it. For example, if
 the observer performs a long calculation or downloads large data set,
-you might want it to execute only when a button is clicked. 
+you might want it to execute only when a button is clicked.
 
-* `isolate()`decouples the reactive dependency taken on other reactives (like inputs, outputs, ...)
-`isolate( df() )` but still reads the value of the input.
-* `observeEvent(input$x, input$y)` is the same as `observe( input$x isolate(input$y))` 
-* `eventReactive(input$x, input$y)` is the same as `reactive( input$x isolate (input$y))`
-
+-   `isolate()`decouples the reactive dependency taken on other
+    reactives (like inputs, outputs, ...) `isolate( df() )` but still
+    reads the value of the input.
+-   `observeEvent(input$x, input$y)` is the same as
+    `observe( input$x isolate(input$y))`
+-   `eventReactive(input$x, input$y)` is the same as
+    `reactive( input$x isolate(input$y))`
 
 ## Interactive Data Visualization frameworks and R Markdown
 
@@ -703,9 +700,16 @@ PDF are rendered via LaTeX.
     -------------------------------------------
     ```
 
-## Pointers I
+## Pointers I -- More Examples and Extensions
 
 [ShinyWidgets](http://shinyapps.dreamrs.fr/shinyWidgets/)
+
+[Awesome Shiny
+Extension](https://github.com/nanxstats/awesome-shiny-extensions)
+
+[RStudio Shiny Gallery](https://shiny.rstudio.com/gallery/)
+
+[Appsilon Shiny Gallery](https://demo.appsilon.com/)
 
 ## Pointers II -- Gadgets and HTML,CSS & JavaScript
 

@@ -511,8 +511,8 @@ shinyApp(ui, server)
 Go to the section "Interactive Data Visualization" and copy&paste one of the interactive plots into your RMarkdown document. 
 
 1. Create an rmarkdown document, format it with some basic syntax. 
-2. Render a html doc with the interactive plot. 
-3. Render a ioslide presentation using the same interactive graphs.
+2. Render a [html doc](https://bookdown.org/yihui/rmarkdown/html-document.html) with the interactive plot. 
+3. Render a [ioslide presentation](https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html) using the same interactive graphs.
 4. Install [flexdashboard](https://pkgs.rstudio.com/flexdashboard/) with `install.packages("flexdashboard")` and render a dashboard with an interactive plot of your choice. You may find an RMarkdown document template for your dashboard in RStudio with `New File --> R Markdown --> From Template --> Flex Dashboard`
 
 
@@ -524,4 +524,94 @@ Go to the section "Interactive Data Visualization" and copy & paste the code int
 1. delete or comment out the 4th line of this code chunk.
 What difference does this make in terms of computation and usability? 
 What's going on here?
+
+
+Example invalidateLater() for Scheduled Updates
+===========================================
+
+Row
+------------------------------------------
+
+
+
+```{r  tidy=TRUE}
+library(shiny)
+library(highcharter)
+library(shinythemes)
+library(dplyr)
+library(tidyverse)
+
+
+ui <- fluidPage(
+  theme = shinytheme("paper"),
+  sliderInput("n", "N", 5, 500, 20, 1),
+  highchartOutput("hc_opts2"),
+  checkboxInput("run", "Start")
+)
+
+
+server <- function(input, output, session) {
+     
+  
+  df_fake <- reactive(tibble(x = runif(input$n,0,100), y = x * 2 + rnorm(input$n, sd= 50)))
+  
+  df <- reactive({
+    lm_fit <- lm(y ~ x, data = df_fake())
+    fit <- fitted(lm_fit)
+    fit_conf <- predict(lm_fit, data.frame(x  = df_fake()$x) , se.fit=TRUE, interval="confidence", level = 0.90)
+    coeffs <-  coef(summary(lm_fit))
+    mutate(df_fake(), fit =  fit, low = fit - 2*coeffs[2,2] , high = fit + 2*coeffs[2,2]  ) 
+    
+})
+
+
+  
+  output$hc_opts2 <- renderHighchart({
+    
+    input$reset
+    highchart() %>%  hc_yAxis(max = max(df()$y), min = min(df()$y)) %>%
+       hc_add_series(
+        data = df(),
+        id = "fit",
+        name = "Fit",
+        type = "line",
+        hcaes(x = x, y = fit)
+        # colorByPoint = TRUE
+        ) %>%
+      hc_add_series(
+        data = df(), 
+        id = "london", 
+        name = "Data", 
+        type = "scatter",
+        hcaes(x = x, y = y)
+        # colorByPoint = TRUE
+        ) %>%
+
+       hc_xAxis(categories = seq_along(1:isolate(input$n)))
+    
+  })
+  
+  autoInvalidate <- reactiveTimer(500)
+
+  
+  observe({ if(input$run) { invalidateLater(500) }
+    lm_fit <- lm(y ~ x, data = df_fake())
+    fit <- fitted(lm_fit)
+    coeffs <-  coef(summary(lm_fit))
+    dfs <- mutate(isolate(df_fake()), fits = x * rnorm(1,coeffs[2,1], coeffs[2,2]) + rnorm(1, coeffs[1,1], coeffs[1,2]) ) 
+    
+    highchartProxy("hc_opts2") %>%
+      hcpxy_set_data(
+        data = dfs, 
+        type = "line",
+        mapping = hcaes(x = x, y = fits),
+        redraw = TRUE
+
+        # colorByPoint = TRUE
+      )
+  })
+}
+  
+shinyApp(ui, server)
+```
 
