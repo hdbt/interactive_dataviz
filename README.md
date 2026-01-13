@@ -223,4 +223,4 @@ You can download all course materials as a ZIP file from the GitHub repository o
 ---
 
 **Course Date**: April 26, 2022  
-**Last Updated**: 2026
+**Last Updated**: January 13, 2026
