@@ -11,10 +11,6 @@ This repository contains materials for an Interactive Data Visualization course 
 - **Interactive Visualization Frameworks**: plotly, highcharter, leaflet, DT (DataTables)
 - **R Markdown**: Generating dynamic reports and presentations
 
-### Course Instructors
-- **Robin Samuel** (Course Instructor)
-- **Hamid Bulut** (Teaching Assistant)
-
 ## 🎯 Learning Objectives
 
 By completing this course, you will be able to:
